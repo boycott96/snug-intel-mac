@@ -62,6 +62,7 @@ final class AppCatalog: ObservableObject {
                     guard forgotten == before else { continue }
                     let next = reorder ? fresh : AppList.keepingOrder(of: running, updatedWith: fresh)
                     if next != running { running = next }
+                    if !loaded { Log.info("App 资源库首次读取完成（运行中 \(next.count) 个 App）") }
                     loaded = true
                     reorder = false
                 }

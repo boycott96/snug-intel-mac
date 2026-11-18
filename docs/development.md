@@ -16,6 +16,8 @@
 
 **运行要求**：macOS 13 或更新版本，同时支持 Intel 与 Apple 芯片。
 
+macOS 13 上，UU 切屏时的推流日志不能可靠反映当前选屏，因此只用日志判断连接活动，选屏按未知处理；手机屏资源库保持刷新。macOS 14 及更新版本继续在离开手机屏时暂停列表刷新、关闭搜索页。
+
 **构建要求**：Swift 6.1 或更新版本、macOS 14 或更新的 SDK（用于编译带版本保护的新版接口）。可使用 Xcode，或命令行工具搭配独立 Swift 工具链与 SDK；通过 `PATH` 选择 Swift、`SDKROOT` 选择 SDK，无需升级运行系统。测试使用 Swift Testing，不依赖 XCTest。通用安装包逐架构编译后通过 `lipo` 合并。
 
 旧版命令行工具的链接器可能不支持 Swift 6 默认传入的 `-no_warn_duplicate_libraries` 参数；应搭配新版链接器。本机 macOS 13 的隔离验证环境与复现命令见 [兼容验证记录](../.memory/project-macos13.md)。

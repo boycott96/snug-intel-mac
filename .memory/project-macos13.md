@@ -27,3 +27,14 @@ env PATH="$PWD/.build/toolchain/unpacked/usr/bin:$PATH" \
 - 未触发：辅助功能未授权，尚未验证实际移窗、手机触控；屏幕录制权限及完整截图流程尚未验证。Apple 芯片和 macOS 14 以上仅完成编译，未在对应系统运行。
 
 构建日志：`.build/macos13-check.log`、`.build/macos13-app.log`；反例日志：`.build/macos13-regression-red.log`。测试版仅本机 ad-hoc 签名，尚未发布或公证。
+
+## 手机资源库一直「正在读取」的后续修复
+
+主人手机实测已能显示手机屏，但 App 资源库一直转圈。16:26 的 UU 系统日志显示，连接开头仅为主屏 2077748985 开推；切到手机屏期间没有新的 SCDisplay 描述或 SCStream 开始事件。旧逻辑一直判断用户在主屏，因此 `PhoneScreenWindows` 没有启动资源库刷新，也会立即关闭搜索页。不能据此断言 App 读取 API 不支持 Ventura。
+
+`CaptureLogWatcher.observation` 在 macOS 13 保留连接活动、选屏返回 nil，不让过期的主屏推断阻止资源库刷新。macOS 14 以上保留原选屏判断。启动日志明确记录兼容策略，资源库首次读取完成后记录运行中 App 数量。代价是 Ventura 无法依据 UU 选屏自动暂停资源库或关闭搜索页。
+
+- 新增 2 项推流观测回归测试，修复前复现 2 处断言失败；修复后 `scripts/snug check` 共 342 项通过。日志 `.build/ventura-spinner-red.log`、`.build/ventura-spinner-check.log`。
+- 本机真实 API 与面板集成探针 `.build/ventura-library-probe.swift`：辅助功能已授权；真实建屏、`PhoneScreenWindows` 与 `AppCatalog` 联动。先注入旧主屏观测，1 秒后仍未读取；改为兼容观测后 0.86 秒加载 6 个运行中 App、79 个已安装 App。收尾清空资源库、实验屏下线、主屏编号不变，全部通过；日志 `.build/ventura-library-probe.log`。
+- 尚待手机复测：完整 UU 画面、点 App 移窗、搜索与截图。探针验证的是本机真实面板与读取链路，不代替手机端完整操作。
+- 已重新构建 Intel/Apple 芯片通用测试包并启动，签名检查通过；启动日志已显示「不推断 UU 当前选屏」「屏 未知」。重打包后辅助功能权限再次失效，须由主人重新授权后手机复测。

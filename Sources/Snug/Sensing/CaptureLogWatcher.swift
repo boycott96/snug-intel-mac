@@ -45,7 +45,16 @@ final class CaptureLogWatcher {
     func sample(at date: Date) -> (active: Bool?, display: DisplayID?) {
         guard isRunning, buffered == nil else { return (nil, nil) }
         noteServerProcess()
-        return (state.isActive(at: date), state.streamingDisplay(at: date))
+        return Self.observation(of: state, at: date)
+    }
+
+    static func observation(of state: CaptureSessionState, at date: Date) -> (active: Bool, display: DisplayID?) {
+        // Ventura 上 UU 切到手机屏时不一定重开 SCStream，日志里的屏可能一直停在连接开头的主屏。
+        // 保留推流活动信号，选屏报未知，让资源库继续刷新，而不是被过期的主屏判断卡住。
+        let display: DisplayID?
+        if #available(macOS 14, *) { display = state.streamingDisplay(at: date) }
+        else { display = nil }
+        return (state.isActive(at: date), display)
     }
 
     /// UURemoteServer 换了进程（或没了），旧的推流状态作废
@@ -103,6 +112,9 @@ final class CaptureLogWatcher {
         buffered = []
         serverPID = UURemoteApp.serverPID()
         Log.info("推流日志监听已启动（log pid \(p.processIdentifier)\(failures > 0 ? "，第 \(failures) 次重启" : "")），回看 \(Self.replayWindow)")
+        if #unavailable(macOS 14) {
+            Log.info("macOS 13：推流日志仅用于连接检测，不推断 UU 当前选屏")
+        }
         replay(generation: gen)
     }
 
@@ -154,8 +166,9 @@ final class CaptureLogWatcher {
         buffered = nil
         state = CaptureSessionState.resumed(history: history ?? [], live: live, server: serverPID)
         let now = Date()
-        let summary = state.isActive(at: now)
-            ? "UU 正在推流（屏 \(state.streamingDisplay(at: now).map(String.init) ?? "未知")）" : "UU 没在推流"
+        let sample = Self.observation(of: state, at: now)
+        let summary = sample.active
+            ? "UU 正在推流（屏 \(sample.display.map(String.init) ?? "未知")）" : "UU 没在推流"
         // 只数当前进程的：上一个进程的记录不参与回放，日志里要看得出来
         let mine = history.map { h in h.filter { serverPID != nil && $0.processID == serverPID }.count }
         Log.info("推流日志回看完成（\(history.map { "\($0.count) 条，当前 UURemoteServer 的 \(mine ?? 0) 条" } ?? "失败，只看实时日志")）：\(summary)")
