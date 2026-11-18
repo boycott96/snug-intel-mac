@@ -3,6 +3,7 @@
 import PermissionFlow
 import SwiftUI
 
+@MainActor
 struct SettingLabel: View {
     let title: String
     var detail: String?
@@ -51,6 +52,7 @@ extension SettingLabel {
 }
 
 /// 权限的状态：已授权带一个小对勾，未授权只写字。「授权…」放在各页的主按钮位置，不在这一行重复
+@MainActor
 struct PermissionStatus: View {
     let granted: Bool
 
@@ -67,6 +69,7 @@ struct PermissionStatus: View {
 }
 
 /// 「授权…」：PermissionFlow 打开系统设置对应的隐私页，旁边浮出一个小窗口，把 Snug 拖进列表即可
+@MainActor
 struct AuthorizeButton: View {
     let pane: PermissionFlowPane
 

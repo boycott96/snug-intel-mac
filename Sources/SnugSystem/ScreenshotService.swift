@@ -22,19 +22,22 @@ public final class ScreenshotService: ScreenshotControl {
             throw trusted ? .unavailable : .noPermission
         }
         guard let target = content.windows.first(where: { $0.windowID == window.id }) else { throw .windowGone }
-        let filter = SCContentFilter(desktopIndependentWindow: target)
-        // 窗口的点尺寸乘屏幕倍率：截出来就是 Retina 原画，不是放大过的
-        let scale = CGFloat(filter.pointPixelScale)
-        let configuration = SCStreamConfiguration()
-        configuration.width = max(1, Int((target.frame.width * scale).rounded()))
-        configuration.height = max(1, Int((target.frame.height * scale).rounded()))
-        configuration.showsCursor = false
         let image: CGImage
-        do {
-            image = try await SCScreenshotManager.captureImage(contentFilter: filter, configuration: configuration)
-        } catch {
-            Log.warn("截窗口 #\(window.id) 失败：\(error)")
-            throw trusted ? .unavailable : .noPermission
+        if #available(macOS 14, *) {
+            do {
+                image = try await Self.captureImage(target)
+            } catch {
+                Log.warn("截窗口 #\(window.id) 失败：\(error)")
+                throw trusted ? .unavailable : .noPermission
+            }
+        } else {
+            // Ventura 没有 SCScreenshotManager；按窗口编号截原始像素，排除阴影和鼠标。
+            guard let captured = CGWindowListCreateImage(.null, .optionIncludingWindow, window.id,
+                                                        [.boundsIgnoreFraming, .bestResolution]) else {
+                Log.warn("截窗口 #\(window.id) 失败：CoreGraphics 未返回图像")
+                throw trusted ? .unavailable : .noPermission
+            }
+            image = captured
         }
         guard let png = Self.png(image) else {
             Log.warn("截窗口 #\(window.id)：\(image.width)×\(image.height) 编不成 PNG")
@@ -58,5 +61,17 @@ public final class ScreenshotService: ScreenshotControl {
 
     private static func png(_ image: CGImage) -> Data? {
         NSBitmapImageRep(cgImage: image).representation(using: .png, properties: [:])
+    }
+
+    @available(macOS 14, *)
+    private static func captureImage(_ window: SCWindow) async throws -> CGImage {
+        let filter = SCContentFilter(desktopIndependentWindow: window)
+        // 窗口的点尺寸乘屏幕倍率：截出来就是 Retina 原画，不是放大过的。
+        let scale = CGFloat(filter.pointPixelScale)
+        let configuration = SCStreamConfiguration()
+        configuration.width = max(1, Int((window.frame.width * scale).rounded()))
+        configuration.height = max(1, Int((window.frame.height * scale).rounded()))
+        configuration.showsCursor = false
+        return try await SCScreenshotManager.captureImage(contentFilter: filter, configuration: configuration)
     }
 }

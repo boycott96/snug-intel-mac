@@ -171,6 +171,7 @@ private final class AppBundlePasteboardWriter: NSObject, NSPasteboardWriting {
 }
 
 @available(macOS 13.0, *)
+@MainActor
 private struct AppDragCardContent: View {
     let url: URL
     let localeIdentifier: String?

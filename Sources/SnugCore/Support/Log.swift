@@ -1,6 +1,7 @@
 // 日志：写 os.Logger（subsystem com.zephyr4123.snug），同时镜像到可替换的 sink（正式运行是日志文件，测试里关掉）
 import Foundation
-import os
+// 旧 SDK 尚未给线程安全的 Logger 标注 Sendable。
+@preconcurrency import os
 
 public enum LogLevel: String, Sendable {
     case debug, info, warn, error

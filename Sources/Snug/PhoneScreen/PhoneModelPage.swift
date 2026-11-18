@@ -4,9 +4,10 @@
 import SnugCore
 import SwiftUI
 
+@MainActor
 struct PhoneModelPage: View {
-    let state: AppState
-    @Bindable var pages: PhonePages
+    @ObservedObject var state: AppState
+    @ObservedObject var pages: PhonePages
     let intents: any PhoneIntents
 
     private var query: String { pages.trimmedQuery }
@@ -75,6 +76,7 @@ struct PhoneModelPage: View {
 }
 
 /// 现在用的那台：名字、分辨率
+@MainActor
 private struct CurrentPhone: View {
     let choice: PhoneChoice
 
@@ -97,6 +99,7 @@ private struct CurrentPhone: View {
 }
 
 /// 自己填分辨率：宽 × 高，横着填也行，比例也行（见 PhoneScreen.custom）。现在用的是自己填的，就先填上它
+@MainActor
 private struct CustomScreen: View {
     let current: PhoneChoice
     let use: (PhoneScreen) -> Void
@@ -128,6 +131,7 @@ private struct CustomScreen: View {
     }
 }
 
+@MainActor
 private struct NumberField: View {
     let placeholder: String
     @Binding var text: String
@@ -139,7 +143,7 @@ private struct NumberField: View {
             .multilineTextAlignment(.center)
             .padding(.horizontal, 12)
             .fieldBackground()
-            .onChange(of: text) { _, new in
+            .onChange(of: text) { new in
                 let digits = new.filter(\.isASCII).filter(\.isNumber)
                 if digits != new { text = digits }
             }
@@ -147,6 +151,7 @@ private struct NumberField: View {
 }
 
 /// 机型库里的一台：型号、分辨率，选中的打勾
+@MainActor
 private struct ModelRow: View {
     let model: PhoneModel
     let selected: Bool

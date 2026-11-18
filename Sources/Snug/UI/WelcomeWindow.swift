@@ -5,8 +5,9 @@ import AppKit
 import SwiftUI
 import SnugCore
 
+@MainActor
 struct WelcomeView: View {
-    let state: AppState
+    @ObservedObject var state: AppState
     let onDone: () -> Void
 
     var body: some View {
@@ -50,6 +51,7 @@ struct WelcomeView: View {
 }
 
 /// 一项功能：图标统一大小，标题 + 一行说明
+@MainActor
 private struct Feature: View {
     let symbol: String
     let title: String
@@ -94,7 +96,7 @@ final class WelcomeWindowController {
             }
             window = w
         }
-        NSApp.activate()
+        NSApp.activate(ignoringOtherApps: true)
         window?.makeKeyAndOrderFront(nil)
     }
 

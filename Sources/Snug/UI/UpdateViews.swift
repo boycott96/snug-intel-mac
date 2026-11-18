@@ -23,8 +23,9 @@ extension UpdateState {
 }
 
 /// 「关于 Snug」里的软件更新：状态和操作一行，更新源一行
+@MainActor
 struct UpdateSection: View {
-    let state: AppState
+    @ObservedObject var state: AppState
     let intents: any AppIntents
     let navigation: any Navigation
 
@@ -77,8 +78,9 @@ struct UpdateSection: View {
 }
 
 /// 更新窗口：讲清落下了哪几版、各改了什么，由用户选「稍后」或「立即更新」
+@MainActor
 struct UpdateView: View {
-    let state: AppState
+    @ObservedObject var state: AppState
     let current: Version
     let intents: any AppIntents
     let close: () -> Void
@@ -103,7 +105,7 @@ struct UpdateView: View {
                     ScrollView { noteList(notes) }
                 }
                 .frame(maxHeight: 240)
-                .background(.fill.quaternary, in: .rect(cornerRadius: 10))
+                .background(Color(nsColor: .quaternaryLabelColor), in: RoundedRectangle(cornerRadius: 10))
                 footer
             }
             .padding(20)
@@ -155,6 +157,7 @@ struct UpdateView: View {
 }
 
 /// 一个版本的更新日志：版本号和日期、标题，正文分成小标题、条目、段落
+@MainActor
 private struct ReleaseNoteView: View {
     let note: ReleaseNote
 

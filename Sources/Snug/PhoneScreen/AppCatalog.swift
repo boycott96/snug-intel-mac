@@ -4,29 +4,28 @@
 // 装着的 App 每次露出来读一次。收起就停；正在放窗口时暂停（列表被盖住，刷了也看不见，还和搬窗口排同一条队）；
 // 一次远程结束就清空，下次从头读。手机上退掉的 App、关掉的窗口，PhoneDesk 一确认就从这里去掉，不等下一轮
 import AppKit
-import Observation
+import Combine
 import SnugCore
 import SnugSystem
 
 @MainActor
-@Observable
-final class AppCatalog {
+final class AppCatalog: ObservableObject {
     static let refreshInterval: TimeInterval = 1.5
 
-    private(set) var running: [RunningApp]
+    @Published private(set) var running: [RunningApp]
     /// 字典序
-    private(set) var installed: [InstalledApp]
+    @Published private(set) var installed: [InstalledApp]
     /// 第一次刷新完成前显示「正在读取」，不显示「没有」
-    private(set) var loaded: Bool
+    @Published private(set) var loaded: Bool
 
-    @ObservationIgnored private let apps: AppService?
-    @ObservationIgnored private let windows: WindowService?
-    @ObservationIgnored private var refreshing: Task<Void, Never>?
-    @ObservationIgnored private var scanning: Task<Void, Never>?
-    @ObservationIgnored private var paused = false
-    @ObservationIgnored private var icons: [String: NSImage] = [:]
+    private let apps: AppService?
+    private let windows: WindowService?
+    private var refreshing: Task<Void, Never>?
+    private var scanning: Task<Void, Never>?
+    private var paused = false
+    private var icons: [String: NSImage] = [:]
     /// forget 过几次：刷新读到一半时有东西没了，读出来的那份可能还带着它，丢掉重读
-    @ObservationIgnored private var forgotten = 0
+    private var forgotten = 0
 
     init(apps: AppService, windows: WindowService) {
         self.apps = apps

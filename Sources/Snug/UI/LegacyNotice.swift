@@ -3,6 +3,7 @@
 import AppKit
 import SwiftUI
 
+@MainActor
 struct LegacyNoticeView: View {
     let quitLegacy: () -> Void
     let keepBoth: () -> Void
@@ -56,7 +57,7 @@ final class LegacyNoticeWindowController {
         w.isReleasedWhenClosed = false
         w.center()
         window = w
-        NSApp.activate()
+        NSApp.activate(ignoringOtherApps: true)
         w.makeKeyAndOrderFront(nil)
     }
 

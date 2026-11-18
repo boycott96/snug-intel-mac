@@ -10,7 +10,7 @@
 
 Built for UU Remote<br>Native portrait display · Native gestures · App Library · Fits every phone
 
-[![Latest release](https://img.shields.io/github/v/release/zephyr4123/snug?label=release&color=blue)](https://github.com/zephyr4123/snug/releases/latest) ![Apple Silicon · Intel](https://img.shields.io/badge/Apple%20Silicon%20%C2%B7%20Intel-Universal-success) ![macOS 14+](https://img.shields.io/badge/macOS-14%2B-blue) ![Notarized](https://img.shields.io/badge/Apple-Notarized-black?logo=apple) [![License MIT](https://img.shields.io/badge/License-MIT-green)](LICENSE)
+[![Latest release](https://img.shields.io/github/v/release/zephyr4123/snug?label=release&color=blue)](https://github.com/zephyr4123/snug/releases/latest) ![Apple Silicon · Intel](https://img.shields.io/badge/Apple%20Silicon%20%C2%B7%20Intel-Universal-success) ![macOS 13+](https://img.shields.io/badge/macOS-13%2B-blue) ![Notarized](https://img.shields.io/badge/Apple-Notarized-black?logo=apple) [![License MIT](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
 [Download](#-download) · [Native Experience](#-native-experience) · [App Library](#-app-library) · [Fit](#-fits-every-app-and-phone) · [Comparison](#-compared-with-alternatives) · [Installation](#-installation) · [Usage](#-usage) · [Limitations](#-known-limitations) · [Development](#-development)
 
@@ -27,7 +27,7 @@ Built for UU Remote<br>Native portrait display · Native gestures · App Library
 
 <img src="Assets/AppIcon/AppIcon-1024.png" width="88" align="left" alt="Snug icon">
 
-**Snug for macOS** [![Latest release](https://img.shields.io/github/v/release/zephyr4123/snug?label=release&color=blue)](https://github.com/zephyr4123/snug/releases/latest)<br>A single universal package for Apple silicon and Intel, running on macOS 14 or later<br>Signed and notarized by Apple; simply drag it into Applications
+**Snug for macOS** [![Latest release](https://img.shields.io/github/v/release/zephyr4123/snug?label=release&color=blue)](https://github.com/zephyr4123/snug/releases/latest)<br>A single universal package for Apple silicon and Intel, running on macOS 13 or later<br>Signed and notarized by Apple; simply drag it into Applications
 
 <br clear="left">
 
@@ -77,7 +77,7 @@ UU Remote's mobile client carries over trackpad gesture conventions. On the phon
 Turn on Screenshot (「截图」) in Snug Settings and a camera button appears on the left of the bottom indicator bar. Tap it to capture the window filling the phone screen and copy it to the Mac's clipboard, ready to paste into any app. You get the window's native pixels, unaffected by remote image compression.
 
 - **Crop**: after a capture, a thumbnail appears in the bottom-left corner; tap it to crop. The whole image is selected by default — drag a corner or edge inward, then tap Done (「完成」) to replace the screenshot in the clipboard with the selection
-- **Permission**: requires the separate Screen & System Audio Recording permission (Screen Recording on macOS 14); click Authorize… (「授权…」) in Snug Settings, then reopen Snug when macOS asks. It is independent of the Accessibility permission
+- **Permission**: requires the separate Screen & System Audio Recording permission (Screen Recording on macOS 13 and 14); click Authorize… (「授权…」) in Snug Settings, then reopen Snug when macOS asks. It is independent of the Accessibility permission
 - **Off by default**: when it is off, the indicator bar shows no camera button and no recording permission is needed
 
 ## 📱 App Library
@@ -134,7 +134,7 @@ UU Remote scales the picture proportionally to fit the phone, leaving black bars
 
 ## 📦 Installation
 
-> **Requirements**: macOS 14 or later, with [UU Remote](https://uuyc.163.com/) installed on the Mac being controlled. On the phone, only UU Remote is needed.
+> **Requirements**: macOS 13 or later, with [UU Remote](https://uuyc.163.com/) installed on the Mac being controlled. On the phone, only UU Remote is needed.
 
 **Download and install (recommended)**
 

@@ -14,14 +14,13 @@ import SwiftUI
 /// 盖在首页上的页面：搜索、手机型号。打开着时列表面板临时接收键盘（见 PhoneScreenWindows），
 /// 两个页都有输入框，query 是打开着的那一页的搜索词
 @MainActor
-@Observable
-final class PhonePages {
+final class PhonePages: ObservableObject {
     enum Page {
         case search, phoneModel
     }
 
-    private(set) var page: Page?
-    var query = ""
+    @Published private(set) var page: Page?
+    @Published var query = ""
 
     var active: Bool { page != nil }
     /// 去掉首尾空格的搜索词：只打了空格算没搜
@@ -38,10 +37,11 @@ final class PhonePages {
     }
 }
 
+@MainActor
 struct PhoneHomeView: View {
-    let state: AppState
-    let catalog: AppCatalog
-    let pages: PhonePages
+    @ObservedObject var state: AppState
+    @ObservedObject var catalog: AppCatalog
+    @ObservedObject var pages: PhonePages
     let intents: any PhoneIntents
 
     @State private var tab: Tab
@@ -92,10 +92,10 @@ struct PhoneHomeView: View {
         }
         .animation(.easeOut(duration: 0.2), value: phone.work)
         .background(PhoneStyle.background)
-        .onChange(of: phone.listVisible) { confirming = nil }
-        .onChange(of: phone.work) { confirming = nil }
-        .onChange(of: tab) { confirming = nil }
-        .onChange(of: pages.active) { confirming = nil }
+        .onChange(of: phone.listVisible) { _ in confirming = nil }
+        .onChange(of: phone.work) { _ in confirming = nil }
+        .onChange(of: tab) { _ in confirming = nil }
+        .onChange(of: pages.active) { _ in confirming = nil }
     }
 
     private var home: some View {
@@ -116,11 +116,11 @@ struct PhoneHomeView: View {
                     }
                 }
                 .scrollIndicators(.never)
-                .onChange(of: phone.listVisible) { _, visible in
+                .onChange(of: phone.listVisible) { visible in
                     if visible { proxy.scrollTo(Self.top, anchor: .top) }
                 }
                 // 提示在页眉里：翻到下面时出了问题，滚回去让人看见
-                .onChange(of: phone.notice) { _, notice in
+                .onChange(of: phone.notice) { notice in
                     if notice != nil { withAnimation { proxy.scrollTo(Self.top, anchor: .top) } }
                 }
             }
@@ -224,6 +224,7 @@ struct PhoneHomeView: View {
 // MARK: 页眉
 
 /// 分段控件：和 iOS 的一样，选中的那段浮起来
+@MainActor
 private struct TabPicker: View {
     @Binding var selection: PhoneHomeView.Tab
 
@@ -254,6 +255,7 @@ private struct TabPicker: View {
 }
 
 /// 回到手机屏上的窗口：和 iPhone 左上角「‹ App 名」回到上一个 App 一样
+@MainActor
 private struct BackButton: View {
     let app: String
     let action: () -> Void
@@ -276,6 +278,7 @@ private struct BackButton: View {
 }
 
 /// 出了什么事、怎么办；没退出的 App 给「稍后 / 强制退出」
+@MainActor
 private struct NoticeBanner: View {
     let notice: PhoneDesk.Notice
     let intents: any PhoneIntents
@@ -294,6 +297,7 @@ private struct NoticeBanner: View {
 }
 
 /// 页眉里的一张卡：图标、一句话、补充说明，下面可以带按钮（提示、退出手机屏的确认）
+@MainActor
 private struct Banner<Actions: View>: View {
     let symbol: String
     let tint: Color
@@ -322,8 +326,9 @@ private struct Banner<Actions: View>: View {
 // MARK: 全部
 
 /// 本机所有 App：图标网格，4 列，按字典序；正在运行的下方有圆点，正在退出的点不了
+@MainActor
 private struct AllApps: View {
-    let catalog: AppCatalog
+    @ObservedObject var catalog: AppCatalog
     let quitting: Set<Int32>
     let intents: any PhoneIntents
 
@@ -360,6 +365,7 @@ private struct AllApps: View {
 // MARK: 正在打开、正在放、正在调整比例、正在退出
 
 /// 整屏讲明正在打开哪个 App、放哪个窗口、按哪台手机调整比例、在退出手机屏。窗口挪好列表就收起，失败了回到列表、顶部写明原因
+@MainActor
 private struct BusyView: View {
     struct Content: Equatable {
         enum Art: Equatable {

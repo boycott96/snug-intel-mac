@@ -4,6 +4,7 @@
 import AppKit
 import SwiftUI
 
+@MainActor
 struct AppIcon: View {
     let image: NSImage
     let size: CGFloat
@@ -14,6 +15,7 @@ struct AppIcon: View {
 }
 
 /// 图标 + 标题 + 副标题的一行（App 卡片的头、搜索结果）
+@MainActor
 struct AppRowLabel: View {
     let icon: NSImage
     let title: String
@@ -34,6 +36,7 @@ struct AppRowLabel: View {
 }
 
 /// 圆形的图标按钮：新建窗口、退出、字号
+@MainActor
 struct RoundButton: View {
     let symbol: String
     let label: String
@@ -53,6 +56,7 @@ struct RoundButton: View {
 
 /// 胶囊形的文字按钮，确认时用，危险的那个红底白字。
 /// 看着 44 点高，好放进窗口那一行；上下各多算几点，点中的高度仍是 touchTarget
+@MainActor
 struct PillButton: View {
     private static let height: CGFloat = 44
 
@@ -75,6 +79,7 @@ struct PillButton: View {
 }
 
 /// 再点一下确认：「取消」和红色的确认键（退出 App、关窗口、退出手机屏）。两个键都先作废等确认的状态，确认键再做事
+@MainActor
 struct ConfirmButtons<Value>: View {
     let title: String
     @Binding var confirming: Value?
@@ -93,6 +98,7 @@ struct ConfirmButtons<Value>: View {
 }
 
 /// 空的、正在读取、没找到：symbol 为 nil 时显示加载动画
+@MainActor
 struct EmptyState: View {
     let symbol: String?
     var title: String?
@@ -114,6 +120,7 @@ struct EmptyState: View {
 }
 
 /// 列表里的一节：小标题 + 内容
+@MainActor
 struct TitledSection<Content: View>: View {
     let title: String
     @ViewBuilder let content: Content
@@ -135,6 +142,7 @@ struct TitledSection<Content: View>: View {
 }
 
 /// 一组行放在一张卡片里，中间用分隔线隔开（分隔线从 dividerInset 起，和标题对齐）
+@MainActor
 struct ListCard<Item: Identifiable, Row: View>: View {
     let items: [Item]
     let dividerInset: CGFloat
@@ -158,6 +166,7 @@ struct ListCard<Item: Identifiable, Row: View>: View {
 }
 
 /// 搜索框的样子（首页上是个按钮，搜索页里是真的输入框）
+@MainActor
 struct SearchBar<Content: View>: View {
     @ViewBuilder let content: Content
 
@@ -174,6 +183,7 @@ struct SearchBar<Content: View>: View {
 }
 
 /// 输入框里的清除键：有字时才出现
+@MainActor
 struct ClearButton: View {
     @Binding var text: String
 
@@ -189,6 +199,7 @@ struct ClearButton: View {
 }
 
 /// 导航栏右边的文字按钮（取消、完成）：靠右对齐，点中的范围不小于 touchTarget
+@MainActor
 struct BarButton: View {
     let title: String
     var bold = false

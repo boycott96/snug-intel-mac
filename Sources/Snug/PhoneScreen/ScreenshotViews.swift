@@ -4,6 +4,7 @@ import SnugCore
 import SwiftUI
 
 /// 刚截好：缩略图 +「已复制截图 · 点按裁剪」
+@MainActor
 struct ScreenshotThumbnail: View {
     let image: NSImage
     /// 这一档比基准宽度宽几倍：跟着手机屏一起放大，在手机上看着大小不变
@@ -30,6 +31,7 @@ struct ScreenshotThumbnail: View {
 }
 
 /// 一句结果：裁好了，或者没截成、为什么
+@MainActor
 struct ScreenshotNoticeView: View {
     let notice: ScreenshotNotice
     let scale: CGFloat
@@ -57,6 +59,7 @@ private extension View {
 }
 
 /// 白字标题 + 一行淡一些的说明，字号同 PhoneStyle.body / label
+@MainActor
 private struct OverlayText: View {
     let headline: String
     let detail: String?

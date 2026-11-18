@@ -10,7 +10,7 @@
 
 为 UU远程 打造<br>竖屏原生显示 · 原生手势 · App 资源库 · 适配所有手机
 
-[![最新版本](https://img.shields.io/github/v/release/zephyr4123/snug?label=%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC&color=blue)](https://github.com/zephyr4123/snug/releases/latest) ![Apple Silicon · Intel](https://img.shields.io/badge/Apple%20Silicon%20%C2%B7%20Intel-%E9%80%9A%E7%94%A8-success) ![macOS 14+](https://img.shields.io/badge/macOS-14%2B-blue) ![已公证](https://img.shields.io/badge/Apple-%E5%B7%B2%E5%85%AC%E8%AF%81-black?logo=apple) [![许可证 MIT](https://img.shields.io/badge/%E8%AE%B8%E5%8F%AF%E8%AF%81-MIT-green)](LICENSE)
+[![最新版本](https://img.shields.io/github/v/release/zephyr4123/snug?label=%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC&color=blue)](https://github.com/zephyr4123/snug/releases/latest) ![Apple Silicon · Intel](https://img.shields.io/badge/Apple%20Silicon%20%C2%B7%20Intel-%E9%80%9A%E7%94%A8-success) ![macOS 13+](https://img.shields.io/badge/macOS-13%2B-blue) ![已公证](https://img.shields.io/badge/Apple-%E5%B7%B2%E5%85%AC%E8%AF%81-black?logo=apple) [![许可证 MIT](https://img.shields.io/badge/%E8%AE%B8%E5%8F%AF%E8%AF%81-MIT-green)](LICENSE)
 
 [下载](#-下载) · [原生体验](#-原生体验) · [App 资源库](#-app-资源库) · [适配](#-适配所有-app-与手机) · [对比](#-与其他方案的对比) · [安装](#-安装) · [使用](#-使用方式) · [限制](#-已知限制) · [开发](#-开发)
 
@@ -27,7 +27,7 @@
 
 <img src="Assets/AppIcon/AppIcon-1024.png" width="88" align="left" alt="Snug 图标">
 
-**Snug for macOS** [![最新版本](https://img.shields.io/github/v/release/zephyr4123/snug?label=%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC&color=blue)](https://github.com/zephyr4123/snug/releases/latest)<br>一个安装包同时支持 Apple 芯片与 Intel，适用于 macOS 14 及更新版本<br>已签名并通过 Apple 公证，下载后拖入「应用程序」即可
+**Snug for macOS** [![最新版本](https://img.shields.io/github/v/release/zephyr4123/snug?label=%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC&color=blue)](https://github.com/zephyr4123/snug/releases/latest)<br>一个安装包同时支持 Apple 芯片与 Intel，适用于 macOS 13 及更新版本<br>已签名并通过 Apple 公证，下载后拖入「应用程序」即可
 
 <br clear="left">
 
@@ -77,7 +77,7 @@ UU远程 手机端沿用触控板的手势逻辑；Snug 在手机屏上按手机
 在 Snug 设置中打开「截图」后，底部指示条左侧出现相机键。轻点即截下铺满手机屏的窗口，放入 Mac 的剪贴板，可在任意 App 中粘贴。截取的是窗口原画，不受远程画质压缩的影响。
 
 - **裁剪**：截图后左下角浮出缩略图，轻点进入裁剪。默认选中整张，拖动四角或四边收窄，轻点「完成」后，以选中部分替换剪贴板中的截图
-- **权限**：需另行授予「录屏与系统录音」权限（macOS 14 为「屏幕录制」），在 Snug 设置中点按「授权…」，按系统提示重新打开 Snug 后生效；与辅助功能权限相互独立
+- **权限**：需另行授予「录屏与系统录音」权限（macOS 13、14 为「屏幕录制」），在 Snug 设置中点按「授权…」，按系统提示重新打开 Snug 后生效；与辅助功能权限相互独立
 - **默认关闭**：关闭时指示条上不显示相机键，也无需授予录屏权限
 
 ## 📱 App 资源库
@@ -134,7 +134,7 @@ UU远程 将画面等比缩放后放进手机，比例不符时会留下黑边�
 
 ## 📦 安装
 
-> **系统要求**：macOS 14 或更新版本，被远程的 Mac 已安装 [UU远程](https://uuyc.163.com/)。手机端只需 UU远程。
+> **系统要求**：macOS 13 或更新版本，被远程的 Mac 已安装 [UU远程](https://uuyc.163.com/)。手机端只需 UU远程。
 
 **下载安装（推荐）**
 

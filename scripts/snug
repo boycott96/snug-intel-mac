@@ -22,7 +22,7 @@ export GH_REPO="${REPO_URL#https://github.com/}"
 readonly COS_PREFIX="snug"
 readonly DOWNLOAD_BASE="https://dl.zephyrxiang.com/$COS_PREFIX"
 # 通用二进制：Apple 芯片和 Intel 一个包。install 也打同样的，自己测的就是要发的
-readonly ARCHS=(--arch arm64 --arch x86_64)
+readonly ARCHS=(arm64 x86_64)
 
 # MARK: 小工具
 
@@ -193,7 +193,7 @@ write_info_plist() {
   <key>CFBundleVersion</key><string>${version}</string>
   <key>CFBundleDevelopmentRegion</key><string>zh_CN</string>
   <key>CFBundleLocalizations</key><array><string>zh-Hans</string></array>
-  <key>LSMinimumSystemVersion</key><string>14.0</string>
+  <key>LSMinimumSystemVersion</key><string>13.0</string>
   <key>LSUIElement</key><true/>
   <key>NSHighResolutionCapable</key><true/>
   <key>NSHumanReadableCopyright</key><string>© 2026 AoyamaShou, © 2026 zephyr4123 · MIT</string>
@@ -206,12 +206,17 @@ PLIST
 build_app() {
   local version; version="$(read_version)"
   step "编译（release，arm64 + x86_64）"
-  swift build -c release --product Snug "${ARCHS[@]}"
-  local bin; bin="$(swift build -c release "${ARCHS[@]}" --show-bin-path)"
+  # SwiftPM 的多架构构建会调用 xcodebuild；逐个编译再合并，也支持只有命令行工具的 Ventura。
+  local arch bin binaries=()
+  for arch in "${ARCHS[@]}"; do
+    swift build -c release --product Snug --arch "$arch"
+    bin="$(swift build -c release --arch "$arch" --show-bin-path)"
+    binaries+=("$bin/Snug")
+  done
   step "组装 $APP（版本 $version）"
   rm -rf "$APP"
   mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
-  cp "$bin/Snug" "$APP/Contents/MacOS/Snug"
+  lipo -create "${binaries[@]}" -output "$APP/Contents/MacOS/Snug"
   # PermissionFlow 的资源包（本地化文案等），它在 Contents/Resources 里找
   cp -R "$bin/PermissionFlow_PermissionFlow.bundle" "$APP/Contents/Resources/"
   # App 图标；界面里的其它图标都是 SF Symbols
@@ -402,7 +407,7 @@ cmd_check() {
   step "swift build（全部产物）"
   swift build
   step "swift test"
-  swift test
+  swift test --disable-xctest
   print -- "✅ check 通过"
 }
 

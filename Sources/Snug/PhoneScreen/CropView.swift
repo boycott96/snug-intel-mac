@@ -4,6 +4,7 @@
 import SnugCore
 import SwiftUI
 
+@MainActor
 struct CropView: View {
     let image: NSImage
     let pixelSize: CGSize

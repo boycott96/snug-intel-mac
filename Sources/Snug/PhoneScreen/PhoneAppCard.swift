@@ -5,6 +5,7 @@ import AppKit
 import SnugCore
 import SwiftUI
 
+@MainActor
 struct AppCard: View {
     /// 窗口按要显示的顺序（放在手机屏上的排第一，见 AppCatalog.app(of:)）
     let app: RunningApp
@@ -72,6 +73,7 @@ struct AppCard: View {
 }
 
 /// App 卡片里的一个窗口：点一下放上手机屏，已经在手机屏上的就回到它；右边关掉它
+@MainActor
 private struct WindowRow: View {
     let window: WindowInfo
     let onPhone: Bool
@@ -133,6 +135,7 @@ private struct WindowRow: View {
 }
 
 /// 窗口行右边的小标签：在手机屏上、已最小化
+@MainActor
 private struct Tag: View {
     let text: String
     let color: Color
@@ -148,6 +151,7 @@ private struct Tag: View {
 }
 
 /// 手机屏上那个窗口的字号和还原，排在它下面一行、和标题对齐。这个 App 调不了字号时只有还原
+@MainActor
 private struct PlacedControls: View {
     let placed: PhoneDesk.Placed
     let work: PhoneDesk.Work?
@@ -158,11 +162,10 @@ private struct PlacedControls: View {
             if placed.zoomable {
                 RoundButton(symbol: "textformat.size.smaller", label: "缩小字号") { intents.zoom(by: -1) }
                     .disabled(placed.zoom <= ZoomBook.range.lowerBound)
-                Text(zoomText)
+                zoomLabel
                     .font(PhoneStyle.body.monospacedDigit())
                     .foregroundStyle(.secondary)
                     .frame(minWidth: 72)
-                    .contentTransition(.numericText())
                 RoundButton(symbol: "textformat.size.larger", label: "放大字号") { intents.zoom(by: 1) }
                     .disabled(placed.zoom >= ZoomBook.range.upperBound)
             }
@@ -186,6 +189,11 @@ private struct PlacedControls: View {
         .padding(.leading, 80)
         .padding(.trailing, 12)
         .padding(.bottom, 12)
+    }
+
+    @ViewBuilder private var zoomLabel: some View {
+        if #available(macOS 14, *) { Text(zoomText).contentTransition(.numericText()) }
+        else { Text(zoomText) }
     }
 
     private var zoomText: String {

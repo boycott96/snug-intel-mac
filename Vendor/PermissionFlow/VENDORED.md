@@ -12,4 +12,6 @@ macOS 27 SDK 中 `@State` 会展开为 `SwiftUIMacros.StateMacro`，宏插件只
 - `PermissionFlowButton.swift`：`buttonState`
 - `UI/PermissionFlowPanelView.swift`：`HeaderDirectionIcon` 的 `wigglePhase` / `scalePhase`
 
+为支持 Swift 6 搭配旧 SDK 编译，SwiftUI 视图显式标注 `@MainActor`；旧 SDK 的 `View` 协议尚未把整个视图隔离到主线程。
+
 安装 Xcode 后可改回直接依赖上游包。

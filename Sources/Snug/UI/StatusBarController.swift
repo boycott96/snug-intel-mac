@@ -1,7 +1,7 @@
 // 菜单栏：只用来看状态、打开设置和关于、退出。Snug 的操作都在手机上，Mac 这边不用管。
 // 每次展开都按 AppState 现做，和设置窗口永远一致
 import AppKit
-import Observation
+import Combine
 import SnugCore
 import SwiftUI
 
@@ -11,6 +11,7 @@ final class StatusBarController: NSObject, NSMenuDelegate {
     private let state: AppState
     private let intents: any AppIntents
     private let navigation: any Navigation
+    private var stateChanges: AnyCancellable?
 
     init(state: AppState, intents: any AppIntents, navigation: any Navigation) {
         self.state = state
@@ -23,6 +24,10 @@ final class StatusBarController: NSObject, NSMenuDelegate {
         item.menu = menu
         item.button?.image = Self.icon
         refreshButton()
+        // @Published 在写入前发通知，下一拍再读才能拿到完整的新状态。
+        stateChanges = state.objectWillChange.receive(on: DispatchQueue.main).sink { [weak self] in
+            MainActor.assumeIsolated { self?.refreshButton() }
+        }
     }
 
     /// 菜单栏图标：SF Symbols 的 iphone.gen3（系统图标本身就是模板图，深色菜单栏自动反白）
@@ -31,12 +36,8 @@ final class StatusBarController: NSObject, NSMenuDelegate {
 
     /// 关着手机屏时图标变灰；提示文字随状态变
     private func refreshButton() {
-        withObservationTracking {
-            item.button?.appearsDisabled = !state.config.phoneScreen || !state.accessibilityTrusted
-            item.button?.toolTip = "Snug：\(StatusText(state).headline)"
-        } onChange: { [weak self] in
-            DispatchQueue.main.async { MainActor.assumeIsolated { self?.refreshButton() } }
-        }
+        item.button?.appearsDisabled = !state.config.phoneScreen || !state.accessibilityTrusted
+        item.button?.toolTip = "Snug：\(StatusText(state).headline)"
     }
 
     func menuNeedsUpdate(_ menu: NSMenu) {
@@ -47,7 +48,10 @@ final class StatusBarController: NSObject, NSMenuDelegate {
         menu.addItem(action("设置…", #selector(openSettings), key: ",", symbol: "gearshape"))
         let about = action("关于 Snug", #selector(openAbout), symbol: "info.circle")
         // 有新版本：系统的菜单角标，更新在「关于」页里
-        if state.update.hasNewVersion { about.badge = NSMenuItemBadge(string: "新版本") }
+        if state.update.hasNewVersion {
+            if #available(macOS 14, *) { about.badge = NSMenuItemBadge(string: "新版本") }
+            else { about.title += "（新版本）" }
+        }
         menu.addItem(about)
         menu.addItem(.separator())
         menu.addItem(action("退出 Snug", #selector(quit), key: "q", symbol: "power"))
@@ -76,6 +80,7 @@ final class StatusBarController: NSObject, NSMenuDelegate {
     @objc private func quit() { intents.quit() }
 }
 
+@MainActor
 private struct MenuStatusView: View {
     let text: StatusText
     let color: Color

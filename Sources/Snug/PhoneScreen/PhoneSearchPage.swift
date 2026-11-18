@@ -4,9 +4,10 @@ import AppKit
 import SnugCore
 import SwiftUI
 
+@MainActor
 struct SearchPage: View {
-    let catalog: AppCatalog
-    @Bindable var search: PhonePages
+    @ObservedObject var catalog: AppCatalog
+    @ObservedObject var search: PhonePages
     let phone: PhoneDesk.State
     let intents: any PhoneIntents
     @FocusState private var focused: Bool
@@ -88,6 +89,7 @@ struct SearchPage: View {
     }
 }
 
+@MainActor
 private struct ResultRow: View {
     let icon: NSImage
     let title: String

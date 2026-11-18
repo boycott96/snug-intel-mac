@@ -3,7 +3,7 @@ import PackageDescription
 
 let package = Package(
     name: "Snug",
-    platforms: [.macOS(.v14)],
+    platforms: [.macOS(.v13)],
     products: [
         .executable(name: "snug-release", targets: ["SnugRelease"]),
     ],
@@ -30,5 +30,6 @@ let package = Package(
         // 发版工具（只由 scripts/snug 调）：打更新包、写 update.json。和 App 共用 SnugCore 里的包格式
         .executableTarget(name: "SnugRelease", dependencies: ["SnugCore"]),
         .testTarget(name: "SnugCoreTests", dependencies: ["SnugCore"], resources: [.copy("Fixtures")]),
+        .testTarget(name: "SnugAppTests", dependencies: ["Snug"]),
     ]
 )

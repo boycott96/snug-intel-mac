@@ -1,4 +1,4 @@
-//  CGVirtualDisplay 私有 API 声明（macOS 14+）
+//  CGVirtualDisplay 私有 API 声明（已在 macOS 13 上验证）
 //  来源：FreeDisplay (MIT) https://github.com/huberdf/FreeDisplay ，属性名与 Chromium virtual_display_mac_util.mm 一致
 //  补了可空与泛型标注：Swift 侧 initWithDescriptor 返回可选值（同序列号残留屏还在时会返回 nil），modes 有元素类型
 

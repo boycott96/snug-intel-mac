@@ -7,6 +7,7 @@
 - [产品](project-product.md) — 目标与已拍板的形态：可选竖屏手机屏、默认同原版 UU、App 资源库、按窗口换档、按机型定比例、可选截图（入口在指示条）；设主屏改成可选（默认不改）；否掉横竖切换、默认进手机屏；边界扩到电脑控制端
 - [手机屏实测坑](project-phone-screen.md) — UU 事件形态与选屏推流规律（新连接总从主屏开始）、真机自测与只从访达重开正式版、ColorSync、换档实测、App 资源库边界
 - [发版](project-release.md) — 只走 scripts/snug；个人 Developer ID（29898YBGWD）公证；gh 绑定 zephyr4123 并写明 -R；版本号与更新日志口径；发版后不替主人装
+- [macOS 13 兼容](project-macos13.md) — Ventura 兼容改动、本机隔离工具链、复现命令、测试与实测边界
 - [国内源与 README](project-domestic-mirror.md) — dl.zephyrxiang.com/snug/ 放安装包与 README 媒体；看下载量；README 结构、截图规格、待换的演示动图；证书 2027-01-12 到期
 - [演示录制（进行中）](project-demo-recording.md) — 三块屏原画并排，正式素材和粗剪已就绪；全在 footage/（绝不进 git），主人说交接时才交给 kineto
 - [无显示器的 Mac（issue #8，已关）](project-headless-mac.md) — 手机屏会顶掉默认屏；退出入口已发布，替身主屏方案已定、缺实机验证

@@ -6,8 +6,9 @@ import PermissionFlow
 import SwiftUI
 import SnugCore
 
+@MainActor
 struct SettingsView: View {
-    let state: AppState
+    @ObservedObject var state: AppState
     let intents: any AppIntents
     let navigation: any Navigation
 
@@ -106,8 +107,9 @@ struct SettingsView: View {
 }
 
 /// 顶部：此刻的状态；缺权限时主按钮「授权…」就在这里
+@MainActor
 private struct StatusHeader: View {
-    let state: AppState
+    @ObservedObject var state: AppState
     let navigation: any Navigation
 
     var body: some View {
@@ -154,6 +156,7 @@ private struct Issue: Identifiable {
 }
 
 /// 一个问题一行：警示图标、出了什么事、去哪里处理，右边是解决它的按钮
+@MainActor
 private struct IssueRow: View {
     let issue: Issue
 
@@ -179,8 +182,9 @@ private struct IssueRow: View {
 }
 
 /// 手机型号：按品牌分组的菜单，选中的打勾；最后一项自己填分辨率（弹出小窗）。和手机屏上的「手机型号」页是同一份配置
+@MainActor
 private struct PhoneMenu: View {
-    let state: AppState
+    @ObservedObject var state: AppState
     let choose: @MainActor (PhoneChoice) -> Void
     @State private var customizing = false
 
@@ -211,6 +215,7 @@ private struct PhoneMenu: View {
 }
 
 /// 自己填分辨率：宽 × 高，横着填也行，比例也行（见 PhoneScreen.custom）
+@MainActor
 private struct CustomScreenForm: View {
     let current: PhoneChoice
     /// 填好的分辨率；取消为 nil
@@ -251,6 +256,7 @@ private struct CustomScreenForm: View {
 }
 
 /// 字号放大：系统「文字大小」那样的带刻度滑块，两端小 A、大 A，每档一格
+@MainActor
 private struct ZoomSlider: View {
     @Binding var steps: Int
 

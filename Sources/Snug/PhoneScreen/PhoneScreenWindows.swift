@@ -4,6 +4,7 @@
 // 面板不抢焦点（点它不会激活 Snug），所有桌面都在，盖在这块屏的菜单栏之上；
 // 只在搜索、选手机型号时临时接收键盘，用完就还回去，手机上的键盘输入平时留给放上来的窗口
 import AppKit
+import Combine
 import SnugCore
 import SnugSystem
 import SwiftUI
@@ -23,6 +24,7 @@ final class PhoneScreenWindows {
     private var overlayShown: OverlayShown?
     private var cropPanel: PhonePanel?
     private var screenObserver: (any NSObjectProtocol)?
+    private var stateChanges: AnyCancellable?
 
     init(state: AppState, catalog: AppCatalog, intents: any PhoneIntents) {
         self.state = state
@@ -32,24 +34,13 @@ final class PhoneScreenWindows {
             forName: NSApplication.didChangeScreenParametersNotification, object: nil, queue: .main) { [weak self] _ in
             MainActor.assumeIsolated { self?.update() }
         }
-        follow()
-    }
-
-    private func follow() {
-        withObservationTracking {
-            _ = state.phone
-            _ = state.streamedDisplay
-            _ = state.screenshotOverlay
-            _ = state.config.screenshot
-            _ = pages.active
-        } onChange: { [weak self] in
-            DispatchQueue.main.async {
-                MainActor.assumeIsolated {
-                    self?.update()
-                    self?.follow()
-                }
+        // 只跟随页面切换，不跟随搜索词；去重也避免关闭着的页面反复触发关页。
+        stateChanges = state.objectWillChange
+            .merge(with: pages.$page.removeDuplicates().dropFirst().map { _ in () })
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                MainActor.assumeIsolated { self?.update() }
             }
-        }
     }
 
     private func update() {

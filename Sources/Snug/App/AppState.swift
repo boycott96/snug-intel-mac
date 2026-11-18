@@ -1,7 +1,7 @@
 // 发布给界面的状态。界面只读它，改动一律走意图协议（由 AppController 实现）。
 // 菜单栏、设置窗口、手机屏上的列表读的是同一份状态：任何入口改了，所有界面一起变
 import CoreGraphics
-import Observation
+import Combine
 import SnugCore
 
 enum ConnectionPhase: Equatable {
@@ -12,35 +12,34 @@ enum ConnectionPhase: Equatable {
 }
 
 @MainActor
-@Observable
-final class AppState {
-    var config = AppConfig()
+final class AppState: ObservableObject {
+    @Published var config = AppConfig()
     /// 机型库（启动时读一次）：设置和手机屏上选手机型号用
-    var phones = PhoneCatalog.empty
-    var connection = ConnectionPhase.idle
+    @Published var phones = PhoneCatalog.empty
+    @Published var connection = ConnectionPhase.idle
     /// 此刻同时连着的控制端
-    var controllers: [String] = []
+    @Published var controllers: [String] = []
     /// UU 此刻在推的屏
-    var streamedDisplay: DisplayID?
-    var phone = PhoneDesk.State()
+    @Published var streamedDisplay: DisplayID?
+    @Published var phone = PhoneDesk.State()
     /// 手势翻译要开却没开起来（建事件监听失败）
-    var gesturesFailed = false
-    var accessibilityTrusted = false
+    @Published var gesturesFailed = false
+    @Published var accessibilityTrusted = false
     /// 录屏权限：手机屏上的截图要它，和辅助功能分开授权（开了截图键才去读）
-    var screenRecordingTrusted = false
-    var launchAtLogin = false
+    @Published var screenRecordingTrusted = false
+    @Published var launchAtLogin = false
     /// 上一次打开开机启动没成
-    var loginItemIssue: LoginItemIssue?
+    @Published var loginItemIssue: LoginItemIssue?
     /// 上一次改设置没能写进 config.json
-    var configSaveFailed = false
+    @Published var configSaveFailed = false
     /// 旧版「UU远程伴侣」正在运行
-    var legacyAppRunning = false
+    @Published var legacyAppRunning = false
     /// 正在退出收尾
-    var quitting = false
+    @Published var quitting = false
     /// 应用内更新：查到了什么、进行到哪（Updater 写）
-    var update = UpdateState()
+    @Published var update = UpdateState()
     /// 手机屏上浮着的截图界面：缩略图、裁剪或一句结果（Screenshots 写）
-    var screenshotOverlay: ScreenshotOverlay?
+    @Published var screenshotOverlay: ScreenshotOverlay?
 
     init() {}
 

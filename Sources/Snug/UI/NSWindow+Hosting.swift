@@ -18,7 +18,7 @@ extension NSWindow {
     /// 用户在别处按回车也不会误触窗口里的默认按钮（启动时的更新检查就这样弹）
     func present(activating: Bool) {
         if activating {
-            NSApp.activate()
+            NSApp.activate(ignoringOtherApps: true)
             makeKeyAndOrderFront(nil)
         } else {
             orderFrontRegardless()

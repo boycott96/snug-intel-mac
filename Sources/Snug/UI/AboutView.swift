@@ -3,8 +3,9 @@ import AppKit
 import SwiftUI
 import SnugCore
 
+@MainActor
 struct AboutView: View {
-    let state: AppState
+    @ObservedObject var state: AppState
     let intents: any AppIntents
     let navigation: any Navigation
 

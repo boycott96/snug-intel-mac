@@ -4,6 +4,7 @@ import AVFoundation
 import SwiftUI
 
 @available(macOS 13.0, *)
+@MainActor
 public struct PermissionFlowButton: View {
     @Environment(\.locale) var locale
     @StateObject private var controller: PermissionFlowController

@@ -77,7 +77,7 @@ public final class WindowService: WindowControl {
             AX.raise(element)
         }
         await MainActor.run {
-            if NSRunningApplication(processIdentifier: window.pid)?.activate() == false {
+            if NSRunningApplication(processIdentifier: window.pid)?.activate(options: [.activateIgnoringOtherApps]) == false {
                 Log.warn("激活 pid \(window.pid) 没成功，键盘输入可能进不了这个窗口")
             }
         }

@@ -14,7 +14,11 @@
 | `scripts/snug mirror <版本>` | 将 GitHub 上已公开的版本补传至国内源：安装包从 GitHub 下载，校验一致后上传；有应用内更新文件的版本一并补传 |
 | `scripts/snug media <文件…>` | 将 README 使用的图片与视频上传至国内源并输出地址；视频仅重新封装（不重新编码），并去除录制时间、地点等元数据 |
 
-**环境要求**：Xcode 与 Swift 6。
+**运行要求**：macOS 13 或更新版本，同时支持 Intel 与 Apple 芯片。
+
+**构建要求**：Swift 6.1 或更新版本、macOS 14 或更新的 SDK（用于编译带版本保护的新版接口）。可使用 Xcode，或命令行工具搭配独立 Swift 工具链与 SDK；通过 `PATH` 选择 Swift、`SDKROOT` 选择 SDK，无需升级运行系统。测试使用 Swift Testing，不依赖 XCTest。通用安装包逐架构编译后通过 `lipo` 合并。
+
+旧版命令行工具的链接器可能不支持 Swift 6 默认传入的 `-no_warn_duplicate_libraries` 参数；应搭配新版链接器。本机 macOS 13 的隔离验证环境与复现命令见 [兼容验证记录](../.memory/project-macos13.md)。
 
 **签名**：钥匙串中有唯一一张「Developer ID Application」证书时自动使用；否则采用 ad-hoc 签名，此时每次重新构建后都需要重新授权辅助功能。
 
