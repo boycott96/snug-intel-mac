@@ -23,11 +23,13 @@
 
 > 承接自 [aoyamashou/UUyc-companion](https://github.com/aoyamashou/UUyc-companion)（UU远程伴侣，作者 AoyamaShou，MIT 许可），完整保留原作者的版权声明与提交历史。2.0 起围绕「手机屏」重新设计。
 
+> **兼容性标记：Intel Mac · macOS 13（Ventura）已验证。** 本分支在 macOS 13.7.8（22H730）、x86_64 上完成构建和测试，使用者已确认本机可用；具体证据与未覆盖场景见 [兼容验证记录](docs/macos-13-compatibility.md)。Apple 芯片与 macOS 14 以上未做运行验证。这是贡献分支的验证结果，不代表上游已合并或官方安装包已支持 macOS 13。
+
 ## 📥 下载
 
 <img src="Assets/AppIcon/AppIcon-1024.png" width="88" align="left" alt="Snug 图标">
 
-**Snug for macOS** [![最新版本](https://img.shields.io/github/v/release/zephyr4123/snug?label=%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC&color=blue)](https://github.com/zephyr4123/snug/releases/latest)<br>一个安装包同时支持 Apple 芯片与 Intel，适用于 macOS 13 及更新版本<br>已签名并通过 Apple 公证，下载后拖入「应用程序」即可
+**Snug for macOS** [![最新版本](https://img.shields.io/github/v/release/zephyr4123/snug?label=%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC&color=blue)](https://github.com/zephyr4123/snug/releases/latest)<br>官方通用安装包同时支持 Apple 芯片与 Intel，适用于 macOS 14 及更新版本<br>已签名并通过 Apple 公证，下载后拖入「应用程序」即可；macOS 13 请从本分支源码构建
 
 <br clear="left">
 
@@ -134,7 +136,7 @@ UU远程 将画面等比缩放后放进手机，比例不符时会留下黑边�
 
 ## 📦 安装
 
-> **系统要求**：macOS 13 或更新版本，被远程的 Mac 已安装 [UU远程](https://uuyc.163.com/)。手机端只需 UU远程。
+> **系统要求**：官方安装包要求 macOS 14 或更新版本；本兼容分支源码支持 macOS 13，Intel / macOS 13.7.8 已验证。被远程的 Mac 须安装 [UU远程](https://uuyc.163.com/)，手机端只需 UU远程。
 
 **下载安装（推荐）**
 
@@ -151,10 +153,10 @@ UU远程 将画面等比缩放后放进手机，比例不符时会留下黑边�
 <p><sub>欢迎页 · 设置 · 关于</sub></p>
 </div>
 
-**从源码构建**（需要 Xcode 与 Swift 6）
+**从兼容分支源码构建**（需要 Swift 6.1+ 与 macOS 14+ SDK，工具链配置见 [开发说明](docs/development.md)）
 
 ```bash
-git clone https://github.com/zephyr4123/snug.git
+git clone --branch intel-macos13 https://github.com/boycott96/snug.git
 cd snug && scripts/snug install
 ```
 

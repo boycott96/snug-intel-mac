@@ -23,11 +23,13 @@ Built for UU Remote<br>Native portrait display · Native gestures · App Library
 
 > Snug continues [aoyamashou/UUyc-companion](https://github.com/aoyamashou/UUyc-companion) (UU Remote Companion by AoyamaShou, MIT License), with the original author's copyright notices and commit history fully preserved. Since version 2.0, it has been redesigned around the phone screen.
 
+> **Compatibility: verified on Intel Mac · macOS 13 (Ventura).** This branch was built and tested on macOS 13.7.8 (22H730), x86_64, and the user has confirmed it works on that machine. See the [compatibility verification record](docs/macos-13-compatibility.md) for evidence and untested scenarios. Runtime behavior on Apple silicon and macOS 14 or later has not been tested. This is a contribution-branch result, not a claim that upstream has merged it or that official downloads support macOS 13.
+
 ## 📥 Download
 
 <img src="Assets/AppIcon/AppIcon-1024.png" width="88" align="left" alt="Snug icon">
 
-**Snug for macOS** [![Latest release](https://img.shields.io/github/v/release/zephyr4123/snug?label=release&color=blue)](https://github.com/zephyr4123/snug/releases/latest)<br>A single universal package for Apple silicon and Intel, running on macOS 13 or later<br>Signed and notarized by Apple; simply drag it into Applications
+**Snug for macOS** [![Latest release](https://img.shields.io/github/v/release/zephyr4123/snug?label=release&color=blue)](https://github.com/zephyr4123/snug/releases/latest)<br>The official universal package supports Apple silicon and Intel, running on macOS 14 or later<br>Signed and notarized by Apple; simply drag it into Applications. For macOS 13, build from this branch's source
 
 <br clear="left">
 
@@ -134,7 +136,7 @@ UU Remote scales the picture proportionally to fit the phone, leaving black bars
 
 ## 📦 Installation
 
-> **Requirements**: macOS 13 or later, with [UU Remote](https://uuyc.163.com/) installed on the Mac being controlled. On the phone, only UU Remote is needed.
+> **Requirements**: official installers require macOS 14 or later. This compatibility branch supports macOS 13 from source, verified on Intel / macOS 13.7.8. Install [UU Remote](https://uuyc.163.com/) on the Mac being controlled; only UU Remote is needed on the phone.
 
 **Download and install (recommended)**
 
@@ -151,10 +153,10 @@ Snug then stays in the menu bar; no further setup is needed. Open Snug again at 
 <p><sub>Welcome window · Settings · About</sub></p>
 </div>
 
-**Build from source** (requires Xcode and Swift 6)
+**Build from the compatibility branch** (requires Swift 6.1+ and a macOS 14+ SDK; see the [development guide](docs/development.md) for toolchain setup)
 
 ```bash
-git clone https://github.com/zephyr4123/snug.git
+git clone --branch intel-macos13 https://github.com/boycott96/snug.git
 cd snug && scripts/snug install
 ```
 
