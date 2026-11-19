@@ -1,4 +1,4 @@
-// update.json：最新的发布。发布时由 snug-release 写（scripts/snug ship 传到 GitHub 和国内源），
+// update.json：最新的发布。发布时由 snug-release 写（scripts/snug ship 传到本仓库 GitHub），
 // App 每次启动取一次：版本号决定有没有新版本，更新日志给用户看落下了什么，清单（UpdatePackage）照着拼新版本
 import Foundation
 

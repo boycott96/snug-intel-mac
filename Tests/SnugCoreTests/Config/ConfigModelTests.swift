@@ -4,7 +4,7 @@ import Testing
 
 @Suite("配置 AppConfig")
 struct ConfigModelTests {
-    @Test("默认值：手机屏和手势都开着，截图键关着，字号默认放大 2 级，还没看过欢迎页，从腾讯云更新")
+    @Test("默认值：手机屏和手势都开着，截图键关着，字号默认放大 2 级，还没看过欢迎页，从 GitHub 更新")
     func defaults() {
         let c = AppConfig()
         #expect(c.phoneScreen)
@@ -12,7 +12,7 @@ struct ConfigModelTests {
         #expect(!c.screenshot)
         #expect(c.zoomSteps == 2)
         #expect(!c.welcomed)
-        #expect(c.updateSource == .tencent)
+        #expect(c.updateSource == .github)
         #expect(c.lastVersion == nil)
         #expect(c.phone == .standard)
     }
@@ -33,8 +33,20 @@ struct ConfigModelTests {
     @Test("不认识的更新源（比如更新的版本写的）用默认值，不把整份配置判为损坏")
     func unknownUpdateSource() throws {
         let c = try JSONDecoder().decode(AppConfig.self, from: Data(#"{"updateSource":"mirror","zoomSteps":3}"#.utf8))
-        #expect(c.updateSource == .tencent)
+        #expect(c.updateSource == .github)
         #expect(c.zoomSteps == 3)
+    }
+
+    @Test("旧腾讯云更新配置迁移到独立仓库，其他设置不变且保存时写回 GitHub")
+    func legacyUpdateSource() throws {
+        let json = #"{"updateSource":"tencent","zoomSteps":3,"gestures":false}"#
+        let config = try JSONDecoder().decode(AppConfig.self, from: Data(json.utf8))
+        #expect(config.updateSource == .github)
+        #expect(config.zoomSteps == 3)
+        #expect(!config.gestures)
+        let encoded = try JSONEncoder().encode(config)
+        let object = try #require(JSONSerialization.jsonObject(with: encoded) as? [String: Any])
+        #expect(object["updateSource"] as? String == "github")
     }
 
     @Test("缺字段的 config.json 用默认值补齐；旧版留下的字段忽略，而不是整份判为损坏")

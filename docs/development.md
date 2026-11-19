@@ -1,30 +1,34 @@
 # 开发
 
+本项目为 Intel Mac / macOS 13+ 的独立长期维护版本，项目、问题反馈及发布入口统一为 [boycott96/snug-intel-mac](https://github.com/boycott96/snug-intel-mac)。默认分支为 `main`，不依赖上游 PR 合并。
+
 ## 构建与发布
 
 构建、测试、打包与发布统一由 `scripts/snug` 完成（`scripts/snug help` 查看全部命令）。
 
 | 命令 | 作用 |
 | :--- | :--- |
-| `scripts/snug check` | 构建全部产物并运行全部测试（Swift Testing），任一步骤失败即以非零状态退出 |
-| `scripts/snug app` | 生成 `build/Snug.app`（通用二进制）并签名 |
+| `scripts/snug check` | 发布配置回归 → 构建全部产物 → 全部 Swift 测试；任一步骤失败即以非零状态退出 |
+| `scripts/snug app` | 生成 `build/Snug.app`（Intel x86_64）并签名 |
 | `scripts/snug install` | 生成 App、安装至「应用程序」并打开；正在运行的 Snug 会先正常退出，窗口先行归位 |
 | `scripts/snug dist` | 生成可分发的 `dist/<版本>/Snug-<版本>.dmg`：Developer ID 签名，App 与 dmg 分别公证并装订票据；再将公证后的 App 打成应用内更新用的 `Snug-<版本>.pack` |
-| `scripts/snug ship` | 发布：前置检查 → check → dist → 生成 `update.json` → 创建 GitHub Release 草稿并上传 → 公开 → 上传国内源 → 两处均从下载地址核对 |
-| `scripts/snug mirror <版本>` | 将 GitHub 上已公开的版本补传至国内源：安装包从 GitHub 下载，校验一致后上传；有应用内更新文件的版本一并补传 |
-| `scripts/snug media <文件…>` | 将 README 使用的图片与视频上传至国内源并输出地址；视频仅重新封装（不重新编码），并去除录制时间、地点等元数据 |
+| `scripts/snug ship` | 发布：前置检查 → check → dist → 生成 `update.json` → 创建本仓库 GitHub Release 草稿并上传 → 公开 → 下载核对；不要求 CDN |
+| `scripts/snug mirror <版本>` | 可选：将已公开的版本补传至自己配置的镜像，须显式设置 `DOWNLOAD_BASE` 和 COS 配置 |
+| `scripts/snug media <文件…>` | 可选：将图片、视频上传至自有镜像，须显式设置 `DOWNLOAD_BASE`；README 默认使用仓库内图片 |
 
-**运行要求**：macOS 13 或更新版本，同时支持 Intel 与 Apple 芯片。
+**运行要求**：Intel Mac（x86_64）、macOS 13 或更新版本。打包只生成 Intel 架构，不承诺 Apple 芯片运行支持。
 
-**已验证环境**：Intel Mac（x86_64）、macOS 13.7.8（22H730）。使用者已确认本机可用；自动化证据、复现命令及未覆盖范围见 [macOS 13 兼容验证](macos-13-compatibility.md)。该结论仅对应本贡献分支，不代表上游发行版已支持 macOS 13。
+**已验证环境**：Intel Mac（x86_64）、macOS 13.7.8（22H730）。使用者已确认本机可用；自动化证据、复现命令及未覆盖范围见 [macOS 13 兼容验证](macos-13-compatibility.md)。其他系统版本须单独验证。
 
 macOS 13 上，UU 切屏时的推流日志不能可靠反映当前选屏，因此只用日志判断连接活动，选屏按未知处理；手机屏资源库保持刷新。macOS 14 及更新版本继续在离开手机屏时暂停列表刷新、关闭搜索页。
 
-**构建要求**：Swift 6.1 或更新版本、macOS 14 或更新的 SDK（用于编译带版本保护的新版接口）。可使用 Xcode，或命令行工具搭配独立 Swift 工具链与 SDK；通过 `PATH` 选择 Swift、`SDKROOT` 选择 SDK，无需升级运行系统。测试使用 Swift Testing，不依赖 XCTest。通用安装包逐架构编译后通过 `lipo` 合并。
+**构建要求**：Swift 6.1 或更新版本、macOS 14 或更新的 SDK（用于编译带版本保护的新版接口）。可使用 Xcode，或命令行工具搭配独立 Swift 工具链与 SDK；通过 `PATH` 选择 Swift、`SDKROOT` 选择 SDK，无需升级运行系统。测试使用 Swift Testing，不依赖 XCTest；安装包显式编译为 x86_64。
 
 旧版命令行工具的链接器可能不支持 Swift 6 默认传入的 `-no_warn_duplicate_libraries` 参数；应搭配新版链接器。本机 macOS 13 的隔离验证环境与复现命令见 [兼容验证记录](../.memory/project-macos13.md)。
 
 **签名**：钥匙串中有唯一一张「Developer ID Application」证书时自动使用；否则采用 ad-hoc 签名，此时每次重新构建后都需要重新授权辅助功能。
+
+**身份与配置迁移**：保留原有 Bundle ID（`com.zephyr4123.snug`）、`Snug.app` 文件名和用户数据路径，避免仅迁仓就丢失设置或改变授权身份；不应与原版同时运行。默认更新源为本仓库 GitHub，旧配置中的 `tencent` 与未知更新源回退为 `github`，保存配置时写回新值；从此不再自动取用上游安装包。回滚前备份 `~/Library/Application Support/Snug/`，回滚可恢复此前提交构建的 App 和备份设置，不改写原有用户数据结构。
 
 **发布流程**
 
@@ -33,7 +37,7 @@ macOS 13 上，UU 切屏时的推流日志不能可靠反映当前选屏，因�
 3. 执行 `scripts/snug ship`
 
 - 已发布的版本不再更改：GitHub 上已公开、而本机的安装包与之不同时，发布会被拒绝，需提升版本号
-- `ship` 中断后可直接重新执行，`dist/<版本>/` 中出自同一提交的安装包会被复用；国内源上已有且内容一致的文件会跳过
+- `ship` 中断后可直接重新执行，`dist/<版本>/` 中出自同一提交的安装包会被复用；可选自有镜像上已有且内容一致的文件会跳过
 
 **本机配置**存放在不纳入版本控制的 `.machine.env`（模板为 `.machine.env.example`），只记录名称，不存放密钥：
 
@@ -42,28 +46,29 @@ macOS 13 上，UU 切屏时的推流日志不能可靠反映当前选屏，因�
 | `MAC_SIGNING_IDENTITY` | 签名证书；`-` 表示 ad-hoc |
 | `MAC_NOTARY_PROFILE` | `xcrun notarytool store-credentials` 存储的公证档案名 |
 | `GH_CONFIG_DIR` / `GITHUB_ACCOUNT` | 发布所用的 GitHub 账号 |
+| `DOWNLOAD_BASE` | 可选自有 CDN 的 HTTPS 根地址（含 `snug-intel-mac` 对象前缀），留空时不使用 CDN |
 | `COS_BUCKET` / `COS_REGION` | 国内源所在的 COS 桶与地域 |
 | `COS_CREDENTIAL` / `COS_SECRETS_LOADER` | 腾讯云密钥的凭据名与按需加载器（提供 `withkey`）；环境中已有 `TENCENTCLOUD_SECRET_ID` / `TENCENTCLOUD_SECRET_KEY` 时可留空 |
 
-## 国内源
+## 可选自有镜像
 
-安装包与 README 媒体同时发布到腾讯云 COS，经 CDN 分发，地址前缀为 `https://dl.zephyrxiang.com/snug/`。桶为私有，仅允许 CDN 读取。
+默认仅发布至 [本仓库 GitHub Releases](https://github.com/boycott96/snug-intel-mac/releases)，没有原项目 CDN 依赖；应用内也只提供 GitHub 更新源。若后续需要镜像，可在 `.machine.env` 显式配置自己的 `DOWNLOAD_BASE`、COS 桶和凭据，`ship` 才额外同步，`mirror` / `media` 才能使用。镜像对象前缀为 `snug-intel-mac`；不能沿用原项目的桶或 CDN。
 
 | 路径 | 内容 | 缓存 |
 | :--- | :--- | :--- |
 | `v<版本>/Snug-<版本>.dmg`、`.sha256` | 各版本安装包，发布后不再更改 | 一年 |
 | `v<版本>/Snug-<版本>.pack`、`update.json` | 应用内更新所用的分块包及其说明（见下文「应用内更新」） | 一年 |
 | `latest/Snug.dmg` | 固定的最新版下载地址（README 与官网使用），只向更新的版本切换，下载文件名带版本号 | 5 分钟 |
-| `latest/update.json` | App 启动时检查的地址，只向更新的版本切换 | 5 分钟 |
+| `latest/update.json` | 可选镜像的更新清单备份；App 仍只从本仓库 GitHub 检查更新 | 5 分钟 |
 | `media/<名称>.<指纹>.<后缀>` | README 的图片与视频，内容变化时地址随之变化 | 一年 |
 
 - 每个对象记录 sha256：重复上传时内容一致即跳过，不一致即拒绝
 - 上传使用的 Python 环境位于仓库内的 `.venv`（不纳入版本控制），依赖版本锁定在 `scripts/cos-requirements.txt`，缺失时自动安装
-- GitHub 的 README 不播放外链视频：README 中的动态演示使用动图，完整视频以链接形式提供
+- README 的图片与动图位于 `Assets/README/`，保留上游素材归属，不再依赖外部媒体 CDN
 
 ## 应用内更新
 
-每个版本只多发布两个文件，GitHub Release 与国内源各一份，内容相同：
+每个版本在本仓库 GitHub Release 额外发布两个文件（如配置了自有镜像，可同步备份）：
 
 - `Snug-<版本>.pack`：将 App 按内容切块（FastCDC，平均 128 KiB），去重后逐块 LZMA 压缩，首尾相接
 - `update.json`：版本号、2.1.0 以来各版本的更新日志，以及清单（每块在包中的位置、每个文件由哪几块组成）

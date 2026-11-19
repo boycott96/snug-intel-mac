@@ -4,41 +4,43 @@
 
 <img src="Assets/AppIcon/AppIcon-1024.png" width="128" alt="Snug icon">
 
-# Snug
+# Snug Intel Mac
 
 **A native-grade Mac experience, right on your phone**
 
 Built for UU Remote<br>Native portrait display · Native gestures · App Library · Fits every phone
 
-[![Latest release](https://img.shields.io/github/v/release/zephyr4123/snug?label=release&color=blue)](https://github.com/zephyr4123/snug/releases/latest) ![Apple Silicon · Intel](https://img.shields.io/badge/Apple%20Silicon%20%C2%B7%20Intel-Universal-success) ![macOS 13+](https://img.shields.io/badge/macOS-13%2B-blue) ![Notarized](https://img.shields.io/badge/Apple-Notarized-black?logo=apple) [![License MIT](https://img.shields.io/badge/License-MIT-green)](LICENSE)
+[![Repository](https://img.shields.io/badge/GitHub-snug--intel--mac-blue)](https://github.com/boycott96/snug-intel-mac) ![Intel x86_64](https://img.shields.io/badge/Intel-x86__64-success) ![macOS 13+](https://img.shields.io/badge/macOS-13%2B-blue) [![License MIT](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
 [Download](#-download) · [Native Experience](#-native-experience) · [App Library](#-app-library) · [Fit](#-fits-every-app-and-phone) · [Comparison](#-compared-with-alternatives) · [Installation](#-installation) · [Usage](#-usage) · [Limitations](#-known-limitations) · [Development](#-development)
 
 <br>
 
-<img src="https://dl.zephyrxiang.com/snug/media/phone-app-library.865fc506.png" width="30%" alt="App Library: running apps with their windows"> <img src="https://dl.zephyrxiang.com/snug/media/phone-demo.2cee4e81.webp" width="30%" alt="Live demo: opening a window, typing commands on the pop-up keyboard, resuming a session, one-finger scrolling, returning to the list"> <img src="https://dl.zephyrxiang.com/snug/media/phone-context-menu.997dd70f.png" width="30%" alt="Long-press context menu">
-<p><sub>App Library · Live demo · Long-press context menu</sub><br><sub>▶ <a href="https://dl.zephyrxiang.com/snug/media/phone-demo.a97e46d1.mp4">Watch the HD demo video</a></sub></p>
+<img src="Assets/README/phone-app-library.865fc506.png" width="30%" alt="App Library: running apps with their windows"> <img src="Assets/README/phone-demo.2cee4e81.webp" width="30%" alt="Live demo: opening a window, typing commands on the pop-up keyboard, resuming a session, one-finger scrolling, returning to the list"> <img src="Assets/README/phone-context-menu.997dd70f.png" width="30%" alt="Long-press context menu">
+<p><sub>App Library · Live demo · Long-press context menu</sub></p>
 
 </div>
 
-> Snug continues [aoyamashou/UUyc-companion](https://github.com/aoyamashou/UUyc-companion) (UU Remote Companion by AoyamaShou, MIT License), with the original author's copyright notices and commit history fully preserved. Since version 2.0, it has been redesigned around the phone screen.
+> **Snug Intel Mac is an independently maintained, long-term project for Intel (x86_64) Macs running macOS 13+.** Its sole project entry point is [boycott96/snug-intel-mac](https://github.com/boycott96/snug-intel-mac). Development and source builds use the default `main` branch.
 
-> **Compatibility: verified on Intel Mac · macOS 13 (Ventura).** This branch was built and tested on macOS 13.7.8 (22H730), x86_64, and the user has confirmed it works on that machine. See the [compatibility verification record](docs/macos-13-compatibility.md) for evidence and untested scenarios. Runtime behavior on Apple silicon and macOS 14 or later has not been tested. This is a contribution-branch result, not a claim that upstream has merged it or that official downloads support macOS 13.
+> Historically derived from [zephyr4123/snug](https://github.com/zephyr4123/snug), whose predecessor is [aoyamashou/UUyc-companion](https://github.com/aoyamashou/UUyc-companion) (UU Remote Companion by AoyamaShou, MIT License). Snug was redesigned around the phone screen starting with version 2.0. The original copyright notices and commit history are preserved; these links are attribution only, not download sources for this project.
+
+> **Compatibility: verified on Intel Mac · macOS 13 (Ventura).** Builds and tests were completed on macOS 13.7.8 (22H730), x86_64, and the user has confirmed it works on that machine. See the [compatibility verification record](docs/macos-13-compatibility.md) for evidence and untested scenarios. Runtime behavior on macOS 14 or later has not been tested; Apple silicon is outside this project's target scope. The feature descriptions and images below illustrate usage, not a claim that every feature has been individually retested on the target environment.
 
 ## 📥 Download
 
 <img src="Assets/AppIcon/AppIcon-1024.png" width="88" align="left" alt="Snug icon">
 
-**Snug for macOS** [![Latest release](https://img.shields.io/github/v/release/zephyr4123/snug?label=release&color=blue)](https://github.com/zephyr4123/snug/releases/latest)<br>The official universal package supports Apple silicon and Intel, running on macOS 14 or later<br>Signed and notarized by Apple; simply drag it into Applications. For macOS 13, build from this branch's source
+**Snug Intel Mac · Intel x86_64 / macOS 13+**<br>This repository has not published any binary installers. Building from source is recommended.<br>Apple signing or notarization is not promised; historical test builds used local ad-hoc signing.
 
 <br clear="left">
 
-| Source | Notes | Download |
+| Source | Notes | Entry point |
 | :--- | :--- | :--- |
-| **China mirror** | Served via Tencent Cloud CDN; recommended in mainland China | [Snug.dmg](https://dl.zephyrxiang.com/snug/latest/Snug.dmg) |
-| **GitHub Releases** | Release notes, checksums, and previous versions | [Go to Releases](https://github.com/zephyr4123/snug/releases/latest) |
+| **Source (recommended)** | Default `main` branch; build requirements below | [Repository](https://github.com/boycott96/snug-intel-mac) |
+| **GitHub Releases** | The sole binary release source for this project; no releases yet | [View releases](https://github.com/boycott96/snug-intel-mac/releases) |
 
-Both sources provide the identical package.
+Upstream installers and CDNs are not download sources for this project.
 
 > On Windows? A community port is available; see [Community Ports](#-community-ports) below.
 
@@ -46,7 +48,7 @@ Both sources provide the identical package.
 
 UU Remote scales your entire desktop down to fit the phone, shrinking text and controls several times over. Snug adds a dedicated portrait display for the phone, where your Mac's windows appear at a phone-native scale, looking and behaving like native apps.
 
-<p align="center"><img src="https://dl.zephyrxiang.com/snug/media/compare-uu-original.cf4158d1.png" width="36%" alt="UU Remote alone: the whole desktop squeezed onto the phone"> <img src="https://dl.zephyrxiang.com/snug/media/phone-claude-code.93e21d9d.png" width="36%" alt="With Snug: the window fills the screen with larger text"><br><sub>Same content · Left: UU Remote alone · Right: with Snug</sub></p>
+<p align="center"><img src="Assets/README/compare-uu-original.cf4158d1.png" width="36%" alt="UU Remote alone: the whole desktop squeezed onto the phone"> <img src="Assets/README/phone-claude-code.93e21d9d.png" width="36%" alt="With Snug: the window fills the screen with larger text"><br><sub>Same content · Left: UU Remote alone · Right: with Snug</sub></p>
 
 ### Native Portrait Display
 
@@ -90,7 +92,7 @@ The home page of the phone screen (「App 资源库」), for managing your Mac's
 - **All** (「全部」): a grid of every app on your Mac, sorted by name; tap an app that isn't running to launch it
 - **Search**: matches app names and window titles, in Chinese, English, full pinyin, or pinyin initials, so "bwl" finds Notes (「备忘录」)
 
-<p align="center"><img src="https://dl.zephyrxiang.com/snug/media/phone-app-library.865fc506.png" width="30%" alt="Running: the app whose window is on the phone screen is listed first"> <img src="https://dl.zephyrxiang.com/snug/media/phone-all-apps.7d4ada60.png" width="30%" alt="All: a grid of every app on the Mac"> <img src="https://dl.zephyrxiang.com/snug/media/phone-search.d365e194.png" width="30%" alt="Search: typing bwl finds Notes"><br><sub>Running · All · Searching by pinyin initials</sub></p>
+<p align="center"><img src="Assets/README/phone-app-library.865fc506.png" width="30%" alt="Running: the app whose window is on the phone screen is listed first"> <img src="Assets/README/phone-all-apps.7d4ada60.png" width="30%" alt="All: a grid of every app on the Mac"> <img src="Assets/README/phone-search.d365e194.png" width="30%" alt="Search: typing bwl finds Notes"><br><sub>Running · All · Searching by pinyin initials</sub></p>
 
 | Action | How |
 | :--- | :--- |
@@ -113,7 +115,7 @@ Some apps enforce a minimum width and can't shrink to the phone screen. Snug fir
 - The picture scales proportionally without distortion, and taps land exactly where you expect
 - Text in such windows is slightly smaller; pinch to zoom on the phone
 
-<p align="center"><img src="https://dl.zephyrxiang.com/snug/media/phone-chatgpt.a28ef053.png" width="36%" alt="Codex in the ChatGPT desktop app, filling the Snug phone screen"> <img src="https://dl.zephyrxiang.com/snug/media/phone-fit-settings.4e526ad6.png" width="36%" alt="System Settings, which enforces a minimum width, filling the phone screen completely"><br><sub>Left: Codex in the ChatGPT desktop app (file links redacted) · Right: System Settings enforces a minimum width, yet still fills the screen completely</sub></p>
+<p align="center"><img src="Assets/README/phone-chatgpt.a28ef053.png" width="36%" alt="Codex in the ChatGPT desktop app, filling the Snug phone screen"> <img src="Assets/README/phone-fit-settings.4e526ad6.png" width="36%" alt="System Settings, which enforces a minimum width, filling the phone screen completely"><br><sub>Left: Codex in the ChatGPT desktop app (file links redacted) · Right: System Settings enforces a minimum width, yet still fills the screen completely</sub></p>
 
 ### Every Phone, Edge to Edge
 
@@ -122,7 +124,7 @@ UU Remote scales the picture proportionally to fit the phone, leaving black bars
 - **Any platform, any brand**: fully supports iPhone, iPad, and Android devices from every major brand, with 800 built-in models across 17 brands
 - **Custom**: if your model isn't listed, enter its screen resolution or aspect ratio
 
-<p align="center"><img src="https://dl.zephyrxiang.com/snug/media/phone-models.3137ee0e.png" width="36%" alt="Phone model page: the current model, a custom resolution, and models listed by brand"><br><sub>Phone model: models listed by brand, or enter a custom resolution</sub></p>
+<p align="center"><img src="Assets/README/phone-models.3137ee0e.png" width="36%" alt="Phone model page: the current model, a custom resolution, and models listed by brand"><br><sub>Phone model: models listed by brand, or enter a custom resolution</sub></p>
 
 ## 🆚 Compared with Alternatives
 
@@ -136,29 +138,25 @@ UU Remote scales the picture proportionally to fit the phone, leaving black bars
 
 ## 📦 Installation
 
-> **Requirements**: official installers require macOS 14 or later. This compatibility branch supports macOS 13 from source, verified on Intel / macOS 13.7.8. Install [UU Remote](https://uuyc.163.com/) on the Mac being controlled; only UU Remote is needed on the phone.
+> **Requirements**: an Intel (x86_64) Mac, targeting macOS 13 or later. Verified on macOS 13.7.8; runtime behavior on other system versions has not been verified. Install [UU Remote](https://uuyc.163.com/) on the Mac being controlled; only UU Remote is needed on the phone.
 
-**Download and install (recommended)**
+**Build and install from source (recommended)**
 
-1. Get the installer from the [Download](#-download) section (the China mirror is recommended in mainland China)
-2. Drag Snug into Applications and open it
-3. Grant the Accessibility permission when the welcome window prompts you (the setting was renamed in macOS 27)
-
-Snug then stays in the menu bar; no further setup is needed. Open Snug again at any time to bring up Settings.
-
-**Updates**: Snug checks at launch and installs new versions with one click, keeping your settings and permissions. You can also check manually or switch the update source on the About tab (「关于」). Versions before 2.1.0 must be replaced manually.
-
-<div align="center">
-<img src="https://dl.zephyrxiang.com/snug/media/welcome.529d7d28.png" width="30%" alt="Welcome window"> <img src="https://dl.zephyrxiang.com/snug/media/settings-ready.a76a5b8c.png" width="30%" alt="Settings"> <img src="https://dl.zephyrxiang.com/snug/media/about.5534d9dc.png" width="30%" alt="About: version, software update, and update source">
-<p><sub>Welcome window · Settings · About</sub></p>
-</div>
-
-**Build from the compatibility branch** (requires Swift 6.1+ and a macOS 14+ SDK; see the [development guide](docs/development.md) for toolchain setup)
+Requires **Swift 6.1+ and a macOS 14+ SDK**. See the [development guide](docs/development.md) for toolchain setup and the [compatibility verification record](docs/macos-13-compatibility.md) for the local macOS 13 reproduction command. The build SDK version is not the minimum runtime OS version.
 
 ```bash
-git clone --branch intel-macos13 https://github.com/boycott96/snug.git
-cd snug && scripts/snug install
+git clone https://github.com/boycott96/snug-intel-mac.git
+cd snug-intel-mac && scripts/snug install
 ```
+
+This uses the default `main` branch; no additional branch checkout is needed. After installation, follow the welcome window to grant Accessibility permission; local ad-hoc re-signing may require granting it again. The app and menu bar still use the name Snug. Open it again to access Settings.
+
+**Updates**: this project uses only [this repository's GitHub Releases](https://github.com/boycott96/snug-intel-mac/releases) for releases and updates. Legacy `updateSource: "tencent"` settings migrate to `"github"`; Tencent Cloud is no longer an option. No binaries have been released, and end-to-end updates using this repository's release packages have not been verified. For now, update by building from source; one-click updates are not promised.
+
+<div align="center">
+<img src="Assets/README/welcome.529d7d28.png" width="30%" alt="Welcome window"> <img src="Assets/README/settings-ready.a76a5b8c.png" width="30%" alt="Settings"> <img src="Assets/README/about.5534d9dc.png" width="30%" alt="About: version, software update, and update source">
+<p><sub>Welcome window · Settings · About</sub></p>
+</div>
 
 <details>
 <summary>Migrating from UU Remote Companion</summary>
@@ -176,7 +174,7 @@ rm ~/Library/LaunchAgents/com.corndog.uudisplay.watchdog-agent.plist
 
 1. **Switch screens**: once a phone or tablet connects, choose "Snug 手机屏" (Snug Phone Screen) in UU Remote's screen list
 
-   <img src="https://dl.zephyrxiang.com/snug/media/uu-screen-picker.212fdbe9.png" width="50%" alt="UU Remote's screen list, showing display 3: Snug Phone Screen">
+   <img src="Assets/README/uu-screen-picker.212fdbe9.png" width="50%" alt="UU Remote's screen list, showing display 3: Snug Phone Screen">
 
 2. **Choose your phone model** (first time only): in the top-right corner of the App Library or in Snug's settings. Then switch to another screen in UU Remote and back, and the phone screen fills your display at the new proportions
 3. **Pick an app or window**: tap an app or window in the App Library and it fills the screen; apps that aren't running are launched
@@ -248,9 +246,9 @@ We are equally grateful to the following projects and contributors:
 - Community PR authors: bubble, gencheng liu, and Rongzheng Liu (#10, reading UU Remote windows in full-screen Spaces)
 - The virtual display implementation draws on [DeskPad](https://github.com/Stengo/DeskPad), [Side Screen](https://github.com/tranvuongquocdat/SideScreen), and Chromium
 
-## ⭐ Star History
+## 🔗 Project Links
 
-<p align="center"><a href="https://www.star-history.com/#zephyr4123/snug&Date"><picture><source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=zephyr4123/snug&type=Date&theme=dark"><source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=zephyr4123/snug&type=Date"><img src="https://api.star-history.com/svg?repos=zephyr4123/snug&type=Date" width="80%" alt="Snug's GitHub stars over time"></picture></a></p>
+[Repository](https://github.com/boycott96/snug-intel-mac) · [Releases](https://github.com/boycott96/snug-intel-mac/releases) · [Issues](https://github.com/boycott96/snug-intel-mac/issues)
 
 ## 📄 License
 

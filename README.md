@@ -4,41 +4,43 @@
 
 <img src="Assets/AppIcon/AppIcon-1024.png" width="128" alt="Snug 图标">
 
-# Snug
+# Snug Intel Mac
 
 **让 Mac 在手机上拥有原生级的操作体验**
 
 为 UU远程 打造<br>竖屏原生显示 · 原生手势 · App 资源库 · 适配所有手机
 
-[![最新版本](https://img.shields.io/github/v/release/zephyr4123/snug?label=%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC&color=blue)](https://github.com/zephyr4123/snug/releases/latest) ![Apple Silicon · Intel](https://img.shields.io/badge/Apple%20Silicon%20%C2%B7%20Intel-%E9%80%9A%E7%94%A8-success) ![macOS 13+](https://img.shields.io/badge/macOS-13%2B-blue) ![已公证](https://img.shields.io/badge/Apple-%E5%B7%B2%E5%85%AC%E8%AF%81-black?logo=apple) [![许可证 MIT](https://img.shields.io/badge/%E8%AE%B8%E5%8F%AF%E8%AF%81-MIT-green)](LICENSE)
+[![项目仓库](https://img.shields.io/badge/GitHub-snug--intel--mac-blue)](https://github.com/boycott96/snug-intel-mac) ![Intel x86_64](https://img.shields.io/badge/Intel-x86__64-success) ![macOS 13+](https://img.shields.io/badge/macOS-13%2B-blue) [![许可证 MIT](https://img.shields.io/badge/%E8%AE%B8%E5%8F%AF%E8%AF%81-MIT-green)](LICENSE)
 
 [下载](#-下载) · [原生体验](#-原生体验) · [App 资源库](#-app-资源库) · [适配](#-适配所有-app-与手机) · [对比](#-与其他方案的对比) · [安装](#-安装) · [使用](#-使用方式) · [限制](#-已知限制) · [开发](#-开发)
 
 <br>
 
-<img src="https://dl.zephyrxiang.com/snug/media/phone-app-library.865fc506.png" width="30%" alt="App 资源库：运行中的 App 与各自的窗口"> <img src="https://dl.zephyrxiang.com/snug/media/phone-demo.2cee4e81.webp" width="30%" alt="实机演示：打开窗口、弹出键盘输入命令、恢复会话、单指滚动、回到列表"> <img src="https://dl.zephyrxiang.com/snug/media/phone-context-menu.997dd70f.png" width="30%" alt="长按调出右键菜单">
-<p><sub>App 资源库 · 实机演示 · 长按调出右键菜单</sub><br><sub>▶ <a href="https://dl.zephyrxiang.com/snug/media/phone-demo.a97e46d1.mp4">观看高清演示视频</a></sub></p>
+<img src="Assets/README/phone-app-library.865fc506.png" width="30%" alt="App 资源库：运行中的 App 与各自的窗口"> <img src="Assets/README/phone-demo.2cee4e81.webp" width="30%" alt="实机演示：打开窗口、弹出键盘输入命令、恢复会话、单指滚动、回到列表"> <img src="Assets/README/phone-context-menu.997dd70f.png" width="30%" alt="长按调出右键菜单">
+<p><sub>App 资源库 · 实机演示 · 长按调出右键菜单</sub></p>
 
 </div>
 
-> 承接自 [aoyamashou/UUyc-companion](https://github.com/aoyamashou/UUyc-companion)（UU远程伴侣，作者 AoyamaShou，MIT 许可），完整保留原作者的版权声明与提交历史。2.0 起围绕「手机屏」重新设计。
+> **Snug Intel Mac 是面向 Intel（x86_64）、macOS 13+ 的独立长期维护项目**，唯一项目入口为 [boycott96/snug-intel-mac](https://github.com/boycott96/snug-intel-mac)，日常开发与源码构建使用默认 `main` 分支。
 
-> **兼容性标记：Intel Mac · macOS 13（Ventura）已验证。** 本分支在 macOS 13.7.8（22H730）、x86_64 上完成构建和测试，使用者已确认本机可用；具体证据与未覆盖场景见 [兼容验证记录](docs/macos-13-compatibility.md)。Apple 芯片与 macOS 14 以上未做运行验证。这是贡献分支的验证结果，不代表上游已合并或官方安装包已支持 macOS 13。
+> 历史来源为 [zephyr4123/snug](https://github.com/zephyr4123/snug)，其前身是 [aoyamashou/UUyc-companion](https://github.com/aoyamashou/UUyc-companion)（UU远程伴侣，作者 AoyamaShou，MIT 许可）；Snug 2.0 起围绕「手机屏」重新设计。保留原作者版权声明与提交历史；这些链接仅作来源归属，不是本项目下载入口。
+
+> **兼容性标记：Intel Mac · macOS 13（Ventura）已验证。** 已在 macOS 13.7.8（22H730）、x86_64 上完成构建和测试，使用者已确认本机可用；具体证据与未覆盖场景见 [兼容验证记录](docs/macos-13-compatibility.md)。macOS 14 及以上未做运行验证，Apple 芯片不在本项目目标范围内。下文保留的功能图文用于说明操作，不代表每项功能均已在目标环境逐项复测。
 
 ## 📥 下载
 
 <img src="Assets/AppIcon/AppIcon-1024.png" width="88" align="left" alt="Snug 图标">
 
-**Snug for macOS** [![最新版本](https://img.shields.io/github/v/release/zephyr4123/snug?label=%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC&color=blue)](https://github.com/zephyr4123/snug/releases/latest)<br>官方通用安装包同时支持 Apple 芯片与 Intel，适用于 macOS 14 及更新版本<br>已签名并通过 Apple 公证，下载后拖入「应用程序」即可；macOS 13 请从本分支源码构建
+**Snug Intel Mac · Intel x86_64 / macOS 13+**<br>本仓库尚未发布二进制安装包，推荐按下文从源码构建。<br>不承诺 Apple 签名或公证；历史测试包使用本机 ad-hoc 签名。
 
 <br clear="left">
 
-| 渠道 | 说明 | 下载 |
+| 渠道 | 说明 | 入口 |
 | :--- | :--- | :--- |
-| **国内源** | 腾讯云 CDN 加速，中国大陆推荐 | [Snug.dmg](https://dl.zephyrxiang.com/snug/latest/Snug.dmg) |
-| **GitHub Releases** | 附更新说明、校验文件与历史版本 | [前往下载](https://github.com/zephyr4123/snug/releases/latest) |
+| **源码（推荐）** | 默认 `main` 分支，构建要求见下文 | [项目仓库](https://github.com/boycott96/snug-intel-mac) |
+| **GitHub Releases** | 本项目唯一二进制发布入口，目前暂无发布 | [查看发布页](https://github.com/boycott96/snug-intel-mac/releases) |
 
-两个渠道提供的是同一个安装包。
+不使用上游安装包或 CDN 作为本项目下载渠道。
 
 > 使用 Windows？社区开发者移植了 Windows 版，见下文 [社区移植](#-社区移植)。
 
@@ -46,7 +48,7 @@
 
 UU远程 将整块桌面等比压缩进手机屏幕，文字与控件随之缩小数倍。Snug 为手机增加一块专属竖屏，Mac 的窗口在其中以手机的尺度呈现，看起来、用起来都如同手机上的原生 App。
 
-<p align="center"><img src="https://dl.zephyrxiang.com/snug/media/compare-uu-original.cf4158d1.png" width="36%" alt="UU远程 原版：整块桌面缩在手机屏幕里"> <img src="https://dl.zephyrxiang.com/snug/media/phone-claude-code.93e21d9d.png" width="36%" alt="搭配 Snug：窗口铺满整屏，字号放大"><br><sub>同一段内容 · 左：UU远程 原版 · 右：搭配 Snug</sub></p>
+<p align="center"><img src="Assets/README/compare-uu-original.cf4158d1.png" width="36%" alt="UU远程 原版：整块桌面缩在手机屏幕里"> <img src="Assets/README/phone-claude-code.93e21d9d.png" width="36%" alt="搭配 Snug：窗口铺满整屏，字号放大"><br><sub>同一段内容 · 左：UU远程 原版 · 右：搭配 Snug</sub></p>
 
 ### 竖屏原生显示
 
@@ -90,7 +92,7 @@ UU远程 手机端沿用触控板的手势逻辑；Snug 在手机屏上按手机
 - **全部**：本机所有 App 的图标网格，按名称排序；尚未运行的 App 轻点即打开
 - **搜索**：匹配 App 名称与窗口标题，支持中文、英文、拼音全拼与首字母，如「bwl」即可找到「备忘录」
 
-<p align="center"><img src="https://dl.zephyrxiang.com/snug/media/phone-app-library.865fc506.png" width="30%" alt="运行中：放在手机屏上的窗口所属的 App 单列在最上方"> <img src="https://dl.zephyrxiang.com/snug/media/phone-all-apps.7d4ada60.png" width="30%" alt="全部：本机所有 App 的图标网格"> <img src="https://dl.zephyrxiang.com/snug/media/phone-search.d365e194.png" width="30%" alt="搜索：输入 bwl 找到备忘录"><br><sub>运行中 · 全部 · 搜索拼音首字母</sub></p>
+<p align="center"><img src="Assets/README/phone-app-library.865fc506.png" width="30%" alt="运行中：放在手机屏上的窗口所属的 App 单列在最上方"> <img src="Assets/README/phone-all-apps.7d4ada60.png" width="30%" alt="全部：本机所有 App 的图标网格"> <img src="Assets/README/phone-search.d365e194.png" width="30%" alt="搜索：输入 bwl 找到备忘录"><br><sub>运行中 · 全部 · 搜索拼音首字母</sub></p>
 
 | 操作 | 方式 |
 | :--- | :--- |
@@ -113,7 +115,7 @@ Snug 放上手机屏的是 Mac 上的窗口本身，任何 App 都能直接使�
 - 画面等比缩放，不变形，点按位置保持准确
 - 此类窗口的文字略小，可在手机上双指放大
 
-<p align="center"><img src="https://dl.zephyrxiang.com/snug/media/phone-chatgpt.a28ef053.png" width="36%" alt="ChatGPT 桌面版里的 Codex 铺满 Snug 手机屏"> <img src="https://dl.zephyrxiang.com/snug/media/phone-fit-settings.4e526ad6.png" width="36%" alt="限定了最小宽度的系统设置完整铺满手机屏"><br><sub>左：ChatGPT 桌面版里的 Codex（文件链接已打码）· 右：限定了最小宽度的系统设置，仍完整铺满</sub></p>
+<p align="center"><img src="Assets/README/phone-chatgpt.a28ef053.png" width="36%" alt="ChatGPT 桌面版里的 Codex 铺满 Snug 手机屏"> <img src="Assets/README/phone-fit-settings.4e526ad6.png" width="36%" alt="限定了最小宽度的系统设置完整铺满手机屏"><br><sub>左：ChatGPT 桌面版里的 Codex（文件链接已打码）· 右：限定了最小宽度的系统设置，仍完整铺满</sub></p>
 
 ### 任意手机都按比例铺满
 
@@ -122,7 +124,7 @@ UU远程 将画面等比缩放后放进手机，比例不符时会留下黑边�
 - **不分系统与品牌**：iPhone、iPad 与各品牌安卓设备全面支持，内置 17 个品牌的 800 款机型
 - **自定义**：列表中没有的机型，直接填写屏幕分辨率或比例
 
-<p align="center"><img src="https://dl.zephyrxiang.com/snug/media/phone-models.3137ee0e.png" width="36%" alt="手机型号页：当前机型、自定义分辨率与按品牌列出的机型"><br><sub>手机型号：按品牌列出机型，也可自定义分辨率</sub></p>
+<p align="center"><img src="Assets/README/phone-models.3137ee0e.png" width="36%" alt="手机型号页：当前机型、自定义分辨率与按品牌列出的机型"><br><sub>手机型号：按品牌列出机型，也可自定义分辨率</sub></p>
 
 ## 🆚 与其他方案的对比
 
@@ -136,29 +138,25 @@ UU远程 将画面等比缩放后放进手机，比例不符时会留下黑边�
 
 ## 📦 安装
 
-> **系统要求**：官方安装包要求 macOS 14 或更新版本；本兼容分支源码支持 macOS 13，Intel / macOS 13.7.8 已验证。被远程的 Mac 须安装 [UU远程](https://uuyc.163.com/)，手机端只需 UU远程。
+> **系统要求**：Intel（x86_64）Mac，目标 macOS 13 或更新版本；已验证 macOS 13.7.8，其他系统版本的运行情况未验证。被远程的 Mac 须安装 [UU远程](https://uuyc.163.com/)，手机端只需 UU远程。
 
-**下载安装（推荐）**
+**源码构建并安装（推荐）**
 
-1. 从「[下载](#-下载)」一节获取安装包（中国大陆推荐国内源）
-2. 将 Snug 拖入「应用程序」并打开
-3. 按欢迎页提示授予辅助功能权限（macOS 27 起名为「设备控制和数据访问」）
-
-完成后 Snug 常驻菜单栏，此后无需任何操作。需要查看状态时，再次打开 Snug 即弹出设置。
-
-**更新**：启动时自动检查，有新版本时一键更新，设置与授权保留；也可在「关于」页手动检查或切换更新源。2.1.0 之前的版本请手动下载替换。
-
-<div align="center">
-<img src="https://dl.zephyrxiang.com/snug/media/welcome.529d7d28.png" width="30%" alt="欢迎页"> <img src="https://dl.zephyrxiang.com/snug/media/settings-ready.a76a5b8c.png" width="30%" alt="设置"> <img src="https://dl.zephyrxiang.com/snug/media/about.5534d9dc.png" width="30%" alt="关于：版本、软件更新与更新源">
-<p><sub>欢迎页 · 设置 · 关于</sub></p>
-</div>
-
-**从兼容分支源码构建**（需要 Swift 6.1+ 与 macOS 14+ SDK，工具链配置见 [开发说明](docs/development.md)）
+需要 **Swift 6.1+ 与 macOS 14+ SDK**，工具链配置见 [开发说明](docs/development.md)，macOS 13 本机复现命令见 [兼容验证记录](docs/macos-13-compatibility.md)。构建 SDK 版本不等于最低运行系统版本。
 
 ```bash
-git clone --branch intel-macos13 https://github.com/boycott96/snug.git
-cd snug && scripts/snug install
+git clone https://github.com/boycott96/snug-intel-mac.git
+cd snug-intel-mac && scripts/snug install
 ```
+
+该命令使用默认 `main` 分支，无需另行切换分支。安装后按欢迎页提示授予辅助功能权限；本机 ad-hoc 重签后可能需要重新授权。应用名称与菜单栏中仍显示 Snug，再次打开可进入设置。
+
+**更新**：本项目仅使用 [本仓库 GitHub Releases](https://github.com/boycott96/snug-intel-mac/releases) 作为发布与更新源；旧配置中的 `updateSource: "tencent"` 迁移为 `"github"`，不再提供腾讯云源选择。当前没有已发布的二进制，尚无本仓库发布包的端到端更新验证；现阶段请通过源码构建更新，不承诺一键更新可用。
+
+<div align="center">
+<img src="Assets/README/welcome.529d7d28.png" width="30%" alt="欢迎页"> <img src="Assets/README/settings-ready.a76a5b8c.png" width="30%" alt="设置"> <img src="Assets/README/about.5534d9dc.png" width="30%" alt="关于：版本、软件更新与更新源">
+<p><sub>欢迎页 · 设置 · 关于</sub></p>
+</div>
 
 <details>
 <summary>从「UU远程伴侣」迁移</summary>
@@ -176,7 +174,7 @@ rm ~/Library/LaunchAgents/com.corndog.uudisplay.watchdog-agent.plist
 
 1. **切换屏幕**：手机或平板连接后，在 UU远程 的屏幕列表中选择「Snug 手机屏」
 
-   <img src="https://dl.zephyrxiang.com/snug/media/uu-screen-picker.212fdbe9.png" width="50%" alt="UU远程 的屏幕列表：显示屏 3（Snug 手机屏）">
+   <img src="Assets/README/uu-screen-picker.212fdbe9.png" width="50%" alt="UU远程 的屏幕列表：显示屏 3（Snug 手机屏）">
 
 2. **选择手机型号**（仅首次）：在 App 资源库右上角或 Snug 设置中选择。选好后在 UU远程 中切到其他屏幕再切回，手机屏即按新的比例铺满
 3. **选择 App 或窗口**：在 App 资源库中轻点 App 或窗口，即铺满整屏；未运行的 App 直接打开
@@ -248,9 +246,9 @@ scripts/snug install   # 构建、安装并打开
 - 社区 PR 作者：bubble、gencheng liu、Rongzheng Liu（#10，全屏桌面空间下读取 UU远程 窗口）
 - 虚拟屏的实现参考了 [DeskPad](https://github.com/Stengo/DeskPad)、[Side Screen](https://github.com/tranvuongquocdat/SideScreen) 与 Chromium 的相关代码
 
-## ⭐ Star 趋势
+## 🔗 项目链接
 
-<p align="center"><a href="https://www.star-history.com/#zephyr4123/snug&Date"><picture><source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=zephyr4123/snug&type=Date&theme=dark"><source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=zephyr4123/snug&type=Date"><img src="https://api.star-history.com/svg?repos=zephyr4123/snug&type=Date" width="80%" alt="Snug 的 GitHub Star 数随时间的变化"></picture></a></p>
+[项目仓库](https://github.com/boycott96/snug-intel-mac) · [发布页](https://github.com/boycott96/snug-intel-mac/releases) · [问题反馈](https://github.com/boycott96/snug-intel-mac/issues)
 
 ## 📄 许可证
 

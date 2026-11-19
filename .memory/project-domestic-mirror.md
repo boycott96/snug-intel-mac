@@ -1,26 +1,26 @@
 ---
 name: project-domestic-mirror
-description: 国内源与 README 媒体：dl.zephyrxiang.com/snug/ 放安装包、更新包与 README 媒体；看下载量的办法；README 的结构、截图规格与待换的演示动图；证书 2027-01-12 到期
+description: 迁仓后默认 GitHub，仅显式自有 DOWNLOAD_BASE 与 COS 配置才额外镜像；README 14 张素材在 Assets/README，文件名 sha256 前 8 位已核验；保留通用截图与录屏规格
 metadata:
   node_type: memory
   type: project
   originSessionId: f97709de-705a-489b-bb7a-7353b1fba51c
-  modified: 2026-11-16T05:06:11.511Z
+  modified: 2026-11-19
 ---
 
-2026-11-13 主人定的：安装包要有国内源（以后官网也从这里取，GitHub Release 照留）；README 的图片、视频也放这里，用原画质。
+2026-11-19 迁仓后基线：唯一项目入口 https://github.com/boycott96/snug-intel-mac ，默认分支 `main`，账号 `boycott96`。本文件替代迁仓前国内源与媒体托管操作指引，不沿用旧账号、域名、证书续期或桶配置。
 
-**国内源**
-- **摆法**：前缀 `https://dl.zephyrxiang.com/snug/`，和 SpeakMore 发布包同一个桶（桶名、地域、凭据名在不进 git 的 `.machine.env`，这份记忆会公开，别写进来）。`v<版本>/` 发过不改，2.1.0 起多 `Snug-<版本>.pack` 和 `update.json`；`latest/Snug.dmg` 和 `latest/update.json`（App 检查更新的地址）缓存 5 分钟、只往新版本换；`media/<名>.<指纹>.<后缀>` 放 README 媒体
-- **命令**：`ship` 发版时自动传；`mirror <版本>` 补传 GitHub 上已公开的版本；`media <文件…>` 传媒体并打出地址。对象都带 sha256 元数据，重跑一样就跳过、不一样就拒绝
-- **CDN**：防盗链关着（GitHub 图片代理才取得到）；每小时 4 GB 的流量上限和费用跟 SpeakMore 共用
-- **看下载量**（主人问了才查）：GitHub 用 releases API 的 download_count，含少量发版核对、扣不干净；国内源没有现成命令，先在 SpeakMore 仓库跑一次它的 stats 刷新 `.stats/logs` 里同域名的访问日志缓存（只读），再筛 `/snug/`，按「字节 ÷ 包大小」折算、同 IP 同天最多算 1 次、本机出口算自测。curl 拉包的不能当自测：2026-11-14 宣传片后十几个不同来源用 curl 下载，还去找 `latest/` 下的校验文件，多半是用户让 AI 助手装的
-- **证书**：`dl.zephyrxiang.com` 的免费证书 2027-01-12 到期，续期记在 SpeakMore 的记忆里；不换，两个项目的下载会一起断
-- 上传用的是主账号密钥，以后可换成只能写 `snug/` 前缀的子账号密钥（未做）
+**GitHub 默认与可选自有镜像**
+- **默认发布**：只走 `scripts/snug ship`，默认发布 `boycott96/snug-intel-mac` 的 GitHub Release，无需 COS，不要求国内 CDN。App 更新只走本仓库 GitHub，旧 `tencent` 配置 fallback 到 `github`。
+- **显式启用**：只有维护者显式配置自有 `DOWNLOAD_BASE` 和配套 COS 配置时，`ship` 才额外镜像发布产物。`mirror <版本>`、`media <文件…>` 也只可在确认自有配置后使用，不能把本机旧配置当授权；默认 README 媒体无需上传。
+- **隔离与权限**：不继承上游 COS 桶、域名、签名证书或公证档案，不共用其他项目的凭据、流量配额或统计缓存。自有凭据放不进 git 的 `.machine.env`，权限按最小给；未配置就保持 GitHub 默认，不为发版补旧配置。
+- **镜像边界**：镜像仅作额外下载副本，不作为 App 更新源。版本产物保持不可变，上传前后核对 sha256；不得用镜像覆盖本仓库 GitHub 的更新入口。
+- **看下载量**（主人问了才查）：用本仓库 releases API 的 `download_count`，API 路径显式指定 `repos/boycott96/snug-intel-mac/releases`；计数可能含发版核对下载，不宣称为去重用户数。未配置自有镜像就不查国内源统计。
 
-**README**（中英文两份一起改，媒体走 `scripts/snug media`）
-- **结构**（11-15 重组）：主线是原生体验（竖屏原生显示、原生手势），放最前；App 资源库、适配所有 App 与手机是它的延伸，别写成工作台。安卓按「全面支持」写，主人定的，不收窄。致谢后、许可证前有一节 Star 趋势（11-16 加）：star-history.com 的外链 SVG，亮暗两版用 `<picture>` 切换，GitHub 会保留 `<picture>` 并走图片代理。它偶尔因 GitHub 接口限流显示出错图，过一会儿自己恢复；要完全可控再改成用 Actions 自己画图传国内源
-- **待换**：顶部中间的演示动图和高清视频仍是 2.2 的「窗口列表」，等演示录制（[[project-demo-recording]]）完成时一起换；手机截图已是 2.4 的（主人手机实拍，不用打码）
+**README**（中英文两份一起改，默认使用仓库内媒体）
+- **素材归属**：README 14 张素材已复制至 `Assets/README`，文件名中的 sha256 前 8 位已核验。使用仓库内相对路径，新增或替换素材也核对文件名指纹，不恢复旧 CDN 链接；保留版权溯源与致谢。
+- **结构**：主线是原生体验（竖屏原生显示、原生手势），放最前；App 资源库、适配所有 App 与手机是它的延伸，别写成工作台。安卓按「全面支持」写，主人定的，不收窄。Star 趋势如保留，亮暗两版可用 `<picture>` 切换，目标必须是 `boycott96/snug-intel-mac`；不因图表服务异常恢复旧媒体托管。
+- **演示替换**：新演示素材参照 [[project-demo-recording]]，替换前核对当前画面与产品版本，不把迁仓前的录制进度当成已验证现状。
 - **GitHub 的限制**：会删掉 `<video>`，录屏用 animated WebP，完整 MP4 用链接给（链接不走代理，没有大小限制）。外链图片一律经 GitHub 图片代理，大小上限在代理：开源 camo 默认 5 MiB，4.97 MB 实测能取到。代理原样转发字节，不会再压缩
 - **动图体积**几乎全花在整屏滚动的帧上（每帧约 50 KB，打字、弹键盘的帧约 7 KB）；超了先用 img2webp 逐帧 `-q` 只降滚动段，宽度 540 在 README 30% 宽下看不出差别
 - **录屏打码**：按字符范围定位（Vision `boundingBox(for:)`），只糊「用户名@机器名」那一截，敲的命令照常露出；逐帧识别复查，并拿没打码的原画做正对照

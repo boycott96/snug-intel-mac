@@ -6,7 +6,7 @@
 # 国内源的桶和密钥从哪来）放在不进 git 的 .machine.env（样板见 .machine.env.example），同名环境变量优先。
 #
 # 发版的约定（照 SpeakMore 的 ship）：
-# - 两个下载地址：GitHub Release，和国内源（腾讯云 COS + CDN，国内下载快，官网也从这里取）
+# - 默认只发布到本仓库 GitHub Release；配置自有 CDN 后才同步镜像
 # - 发过的版本不改：GitHub 上这个版本已经公开、包又和本机的不一样，就拒绝；国内源同名的包内容不一样也拒绝。要改就升版本号
 # - 断了别重打：dist/<版本>/ 里留着打好的包和它出自哪个提交，ship 重跑时直接用，只补没做完的那一步
 set -euo pipefail
@@ -14,15 +14,14 @@ cd "${0:A:h}/.."
 
 readonly BUNDLE_ID="com.zephyr4123.snug"
 readonly APP="build/Snug.app"
-readonly REPO_URL="https://github.com/zephyr4123/snug"
+readonly REPO_URL="https://github.com/boycott96/snug-intel-mac"
 # gh 的 release 命令都发到这个仓库。不写明时 gh 自己从 git 远端里挑，有 upstream 就挑 upstream：
 # 2.0.0 发版时它挑中了原作者的 aoyamashou/UUyc-companion，靠 --verify-tag 才没发过去
 export GH_REPO="${REPO_URL#https://github.com/}"
-# 国内源：桶和 SpeakMore 共用，Snug 的都在 snug/ 下，网址的路径就是桶里的对象名（摆法见「国内源」一节）
-readonly COS_PREFIX="snug"
-readonly DOWNLOAD_BASE="https://dl.zephyrxiang.com/$COS_PREFIX"
-# 通用二进制：Apple 芯片和 Intel 一个包。install 也打同样的，自己测的就是要发的
-readonly ARCHS=(arm64 x86_64)
+# 可选镜像必须使用维护者自己的桶和地址，默认不配置。
+readonly COS_PREFIX="snug-intel-mac"
+DOWNLOAD_BASE="${DOWNLOAD_BASE:-}"
+readonly ARCHS=(x86_64)
 
 # MARK: 小工具
 
@@ -40,9 +39,9 @@ usage() {
   dist      打可分发的安装包 dist/<版本>/Snug-<版本>.dmg：Developer ID 签名，App 和 dmg 各自公证、钉票据；
             再把公证过的 App 打成应用内更新用的 Snug-<版本>.pack
   ship      发版：把关 → check → dist → 写 update.json（更新日志取自标签说明）→ GitHub Release 草稿、传包 →
-            公开 → 传国内源 → 两边都从下载地址核对
-  mirror    把 GitHub 上已经公开的版本补传到国内源：scripts/snug mirror 2.0.0
-  media     把 README 用的图片、视频传到国内源，打出地址：scripts/snug media <文件…>
+            公开 → 从 GitHub 下载核对（显式配置自有 CDN 时才同步镜像）
+  mirror    把 GitHub 上已经公开的版本补传到自有镜像（需 DOWNLOAD_BASE）：scripts/snug mirror 2.0.0
+  media     把图片、视频传到自有镜像（需 DOWNLOAD_BASE），打出地址：scripts/snug media <文件…>
   help      显示这段说明
 
 发版：改好 VERSION 并提交，打带说明的同名标签推上去，再 ship（Release 的说明取自标签说明）：
@@ -185,7 +184,7 @@ write_info_plist() {
 <dict>
   <key>CFBundleIdentifier</key><string>${BUNDLE_ID}</string>
   <key>CFBundleName</key><string>Snug</string>
-  <key>CFBundleDisplayName</key><string>Snug</string>
+  <key>CFBundleDisplayName</key><string>Snug Intel Mac</string>
   <key>CFBundleExecutable</key><string>Snug</string>
   <key>CFBundleIconFile</key><string>AppIcon</string>
   <key>CFBundlePackageType</key><string>APPL</string>
@@ -196,7 +195,7 @@ write_info_plist() {
   <key>LSMinimumSystemVersion</key><string>13.0</string>
   <key>LSUIElement</key><true/>
   <key>NSHighResolutionCapable</key><true/>
-  <key>NSHumanReadableCopyright</key><string>© 2026 AoyamaShou, © 2026 zephyr4123 · MIT</string>
+  <key>NSHumanReadableCopyright</key><string>© 2026 AoyamaShou, © 2026 zephyr4123, © 2026 AK_SunRuiGuang · MIT</string>
 </dict>
 </plist>
 PLIST
@@ -205,8 +204,8 @@ PLIST
 # build/Snug.app：切模式的帮手进程就是 Snug 自己（带 --set-mode / --restore-mode 运行），不另外打包
 build_app() {
   local version; version="$(read_version)"
-  step "编译（release，arm64 + x86_64）"
-  # SwiftPM 的多架构构建会调用 xcodebuild；逐个编译再合并，也支持只有命令行工具的 Ventura。
+  step "编译（release，Intel x86_64）"
+  # 显式指定 Intel 架构，避免在其他开发机上误打成 arm64。
   local arch bin binaries=()
   for arch in "${ARCHS[@]}"; do
     swift build -c release --product Snug --arch "$arch"
@@ -264,6 +263,13 @@ ensure_cos_python() {
 
 # 传之前查齐：桶、地域、密钥从哪来。ship 在把关时就查，别等 GitHub 那边发完才发现传不了
 require_cos_setup() {
+  [[ $DOWNLOAD_BASE =~ '^https://[A-Za-z0-9][A-Za-z0-9.-]*(:[0-9]+)?(/[^[:space:]?#]*)?$' ]] \
+    || die "自有镜像未配置：在 .machine.env 设置有效的 HTTPS DOWNLOAD_BASE；默认仅发布到 GitHub"
+  local mirror_host="${DOWNLOAD_BASE#https://}"
+  mirror_host="${(L)${mirror_host%%/*}}"
+  mirror_host="${${mirror_host%%:*}%.}"
+  [[ $mirror_host != dl.zephyrxiang.com ]] || die "不能使用原项目 CDN，请配置维护者自己的镜像"
+  DOWNLOAD_BASE="${DOWNLOAD_BASE%/}"
   [[ -n ${COS_BUCKET:-} && -n ${COS_REGION:-} ]] \
     || die "没配国内源的桶：照 .machine.env.example 在 .machine.env 里填 COS_BUCKET、COS_REGION"
   [[ -n ${TENCENTCLOUD_SECRET_ID:-} && -n ${TENCENTCLOUD_SECRET_KEY:-} ]] && return 0
@@ -404,6 +410,8 @@ release_tool() { swift run -c release --quiet snug-release "$@"; }
 # MARK: 命令
 
 cmd_check() {
+  step "发布配置回归"
+  zsh Tests/Scripts/DistributionTests.zsh
   step "swift build（全部产物）"
   swift build
   step "swift test"
@@ -511,7 +519,7 @@ cmd_ship() {
   local remote; remote="$(git ls-remote origin "refs/tags/$tag^{}" | cut -f 1)"
   [[ $remote == "$(git rev-parse HEAD)" ]] || die "标签 $tag 还没推到 GitHub，或者那边指的不是这个提交"
   check_github_account
-  require_cos_setup
+  [[ -z $DOWNLOAD_BASE ]] || require_cos_setup
 
   # 已经公开的版本不改；草稿可以接着传
   local state=""
@@ -550,9 +558,11 @@ cmd_ship() {
     verify_download "$REPO_URL/releases/download/$tag/${asset:t}" "$(shasum -a 256 "$asset" | cut -d ' ' -f 1)"
   done
 
-  publish_cos "$version" "dist/$version"
-  publish_cos_update "$version" "dist/$version"
-  print -- "✅ Snug $version 已发布：$REPO_URL/releases/tag/$tag · 国内源 $DOWNLOAD_BASE/v$version/$dmg_name"
+  if [[ -n $DOWNLOAD_BASE ]]; then
+    publish_cos "$version" "dist/$version"
+    publish_cos_update "$version" "dist/$version"
+  fi
+  print -- "✅ Snug Intel Mac $version 已发布：$REPO_URL/releases/tag/$tag"
 }
 
 # 把 GitHub 上已经公开的版本补传到国内源：包从 GitHub 下载、比过校验值再传，两边是同一个文件

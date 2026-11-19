@@ -3,15 +3,16 @@
 - [前端 skill 路由](skill-routing-frontend.md) — 网页 UI、动效、手势交互用哪个 skill（impeccable 主导）
 - [通用 skill 路由](skill-routing-general.md) — 密钥、多仓、云运维、Multica、编排、长任务、去 AI 腔用哪个 skill
 - [iOS skill 路由](skill-routing-ios.md) — SwiftUI 视图、iOS 验证闭环用哪个 skill
-- [项目定位](project-positioning.md) — 承接的自有项目，保留原作者版权与致谢；2.0.0 已发布，本地数据格式变更要带迁移
+- **迁仓后当前基线（2026-11-19）**：唯一项目入口 https://github.com/boycott96/snug-intel-mac ，默认分支 `main`，账号 `boycott96`；长期维护 Intel x86_64、macOS 13+，已在 macOS 13.7.8 验证，App 包只编 x86_64。发布与更新以以下两份记忆为准，其他记忆中的历史发布信息不作为当前操作依据。
+- [项目定位](project-positioning.md) — 承接的自有项目；保留 Bundle ID、用户数据路径、原作者版权与致谢，避免破坏授权和设置；本地数据格式变更要带迁移
 - [产品](project-product.md) — 目标与已拍板的形态：可选竖屏手机屏、默认同原版 UU、App 资源库、按窗口换档、按机型定比例、可选截图（入口在指示条）；设主屏改成可选（默认不改）；否掉横竖切换、默认进手机屏；边界扩到电脑控制端
 - [手机屏实测坑](project-phone-screen.md) — UU 事件形态与选屏推流规律（新连接总从主屏开始）、真机自测与只从访达重开正式版、ColorSync、换档实测、App 资源库边界
-- [发版](project-release.md) — 只走 scripts/snug；个人 Developer ID（29898YBGWD）公证；gh 绑定 zephyr4123 并写明 -R；版本号与更新日志口径；发版后不替主人装
+- [发版](project-release.md) — 只走 scripts/snug；GitHub 账号 boycott96，显式指定 boycott96/snug-intel-mac；App 更新只走本仓库 GitHub，旧 tencent 配置 fallback github；不继承上游签名证书或公证档案；发版后不替主人装
 - [macOS 13 兼容](project-macos13.md) — Ventura 兼容改动、本机隔离工具链、复现命令、测试与实测边界
-- [国内源与 README](project-domestic-mirror.md) — dl.zephyrxiang.com/snug/ 放安装包与 README 媒体；看下载量；README 结构、截图规格、待换的演示动图；证书 2027-01-12 到期
+- [可选镜像与 README](project-domestic-mirror.md) — ship 默认只发 GitHub、无需 COS；仅显式自有 DOWNLOAD_BASE + COS 配置才额外镜像，不继承上游 COS 桶；README 14 张素材已复制至 Assets/README，文件名 sha256 前 8 位已核验；保留通用素材规格
 - [演示录制（进行中）](project-demo-recording.md) — 三块屏原画并排，正式素材和粗剪已就绪；全在 footage/（绝不进 git），主人说交接时才交给 kineto
-- [无显示器的 Mac（issue #8，已关）](project-headless-mac.md) — 手机屏会顶掉默认屏；退出入口已发布，替身主屏方案已定、缺实机验证
-- [多屏（方案和 UI 都定了，下一步拆 PhoneDesk）](project-multi-screen.md) — issue #7、#10、#16、#20：屏幕列表、每块屏一个开关和型号、UU 一次只让一台控制；全文在 docs/multi-screen.md，开头有开工前要读的清单
+- [无显示器的 Mac（历史上游 issue #8，非本仓库，已关）](project-headless-mac.md) — 历史记录：手机屏会顶掉默认屏；退出入口已发布，替身主屏方案已定、缺实机验证
+- [多屏（历史方案）](project-multi-screen.md) — 历史上游 issue #7、#10、#16、#20，非本仓库：屏幕列表、每块屏一个开关和型号、UU 一次只让一台控制；全文在 docs/multi-screen.md，开头有开工前要读的清单
 - [UI 重组（已确认）](project-ui-redesign.md) — 设置分三页、菜单栏、电脑屏资源库、横屏两栏；令牌 design/design-tokens.json、原型 design/prototype，界面以原型为准
 - [产品思维](feedback-product-thinking.md) — 用户无感、可选不强制、隔离干净；验证用的步骤不进产品
 - [界面规范](feedback-ui-style.md) — 图标只用 SF Symbols；文字短词、书面、克制；每个状态讲清楚

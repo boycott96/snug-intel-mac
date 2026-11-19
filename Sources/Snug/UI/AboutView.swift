@@ -15,6 +15,8 @@ struct AboutView: View {
     }
 
     private let credits = [
+        Credit(name: "Snug", url: "https://github.com/zephyr4123/snug",
+               author: "zephyr4123", usage: "上游项目"),
         Credit(name: "UUyc-companion", url: "https://github.com/aoyamashou/UUyc-companion",
                author: "AoyamaShou", usage: "项目前身"),
         Credit(name: "PermissionFlow", url: "https://github.com/jaywcjlove/PermissionFlow",
@@ -34,11 +36,11 @@ struct AboutView: View {
                         .frame(width: 64, height: 64)
                     VStack(alignment: .leading, spacing: 4) {
                         HStack(alignment: .firstTextBaseline, spacing: 8) {
-                            Text("Snug").font(.title2.bold())
+                            Text("Snug Intel Mac").font(.title2.bold())
                             Text(Updater.current?.description ?? "开发版").foregroundStyle(.secondary).monospacedDigit()
                         }
-                        Text("手机远程 Mac 的显示与触控增强")
-                        Link("github.com/zephyr4123/snug", destination: URL(string: "https://github.com/zephyr4123/snug")!)
+                        Text("Intel Mac · macOS 13+ 长期维护版")
+                        Link("github.com/boycott96/snug-intel-mac", destination: UpdateSource.repositoryURL)
                     }
                 }
                 .padding(.vertical, 4)
